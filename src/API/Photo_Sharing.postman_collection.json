@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "33ce3429-7533-4c75-a39d-f414eedceb52",
+		"_postman_id": "3c6584df-1758-4650-b25e-0cf4cb5142a1",
 		"name": "Photo Sharing",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "6656624"
+		"_exporter_id": "26564152"
 	},
 	"item": [
 		{
@@ -26,9 +26,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/user",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/user",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -65,9 +69,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/update-profile",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/update-profile",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -95,9 +103,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/user/{{USER_ID}}",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/user/{{USER_ID}}",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -135,9 +147,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/register",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/register",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -182,9 +198,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/login",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/login",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -212,9 +232,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/logout",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/logout",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -256,9 +280,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/create-post",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/create-post",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -295,9 +323,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/update-post/{{POST_ID}}",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/update-post/{{POST_ID}}",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -335,9 +367,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/delete-post/{{POST_ID}}",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/delete-post/{{POST_ID}}",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -366,9 +402,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/explore-post?size=10&page=1",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/explore-post?size=10&page=1",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -406,9 +446,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/users-post/{{USER_ID}}?size=10&page=1",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/users-post/{{USER_ID}}?size=10&page=1",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -447,9 +491,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/post/{{POST_ID}}",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/post/{{POST_ID}}",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -478,9 +526,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/following-post?size=10&page=1",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/following-post?size=10&page=1",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -532,9 +584,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/follow",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/follow",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -571,9 +627,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/unfollow/{{USER_ID}}",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/unfollow/{{USER_ID}}",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -602,9 +662,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/my-following?size=10&page=1",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/my-following?size=10&page=1",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -642,9 +706,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/my-followers?size=10&page=1",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/my-followers?size=10&page=1",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -682,9 +750,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/following/{{USER_ID}}?size=10&page=1",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/following/{{USER_ID}}?size=10&page=1",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -723,9 +795,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/followers/{{USER_ID}}?size=10&page=1",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/followers/{{USER_ID}}?size=10&page=1",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -778,9 +854,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/create-comment",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/create-comment",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -817,9 +897,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/delete-comment/{{COMMENT_ID}}",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/delete-comment/{{COMMENT_ID}}",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -862,9 +946,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/like",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/like",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -901,9 +989,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/unlike",
+							"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/unlike",
+							"protocol": "https",
 							"host": [
-								"{{BASE_URL}}"
+								"photo-sharing-api-bootcamp",
+								"do",
+								"dibimbing",
+								"id"
 							],
 							"path": [
 								"api",
@@ -943,9 +1035,13 @@
 					]
 				},
 				"url": {
-					"raw": "{{BASE_URL}}/api/v1/upload-image",
+					"raw": "https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/upload-image",
+					"protocol": "https",
 					"host": [
-						"{{BASE_URL}}"
+						"photo-sharing-api-bootcamp",
+						"do",
+						"dibimbing",
+						"id"
 					],
 					"path": [
 						"api",
