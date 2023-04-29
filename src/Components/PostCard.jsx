@@ -8,7 +8,7 @@ import { faEllipsisVertical, faHeart, faComment } from '@fortawesome/free-solid-
 
 function PostCard() {
   return (
-    <Card style={{ width: '32rem' }}>
+    <Card style={{ width: '32rem' }} id='PostCard'>
       <Col id='UserPost'>
         <Col id='UserName'>
             <div id='AvatarImage'><img src={SmallImage} alt="" className='AvatarPost' /></div>
@@ -28,7 +28,7 @@ function PostCard() {
           Some quick example text to build on the card title and make up the
           bulk of the card's content.
         </Card.Text>
-        <Button variant="primary">View Coments</Button>
+        <Button variant="primary">View Post</Button>
       </Card.Body>
     </Card>
   );

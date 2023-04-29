@@ -1,3 +1,11 @@
+#NavMenu{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 30rem;
+    padding: 0rem 3rem;
+}
+
 #UserPost{
     display: flex;
     flex-direction: row;
@@ -22,4 +30,17 @@
 #ActionButtonPost{
     display: flex;
     gap: 1rem;
+}
+
+.content{
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    background-color: white;
+}
+
+.body{
+   align-items: center; 
+   justify-content: center;
+   background-color: rgb(216, 216, 216);
 }

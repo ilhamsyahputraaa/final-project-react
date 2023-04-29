@@ -35,7 +35,14 @@ function App() {
   return (
     <>
     <NavBar />
-    <PostCard />
+    <div className='body d-flex row'>
+      <div className='content d-flex row gap-5 col-8'>
+        <PostCard />
+        <PostCard />
+        <PostCard />
+      </div>
+    </div>
+    
     </>
   )
 }
