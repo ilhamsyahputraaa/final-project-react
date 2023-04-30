@@ -12,6 +12,7 @@ import ProfilePage from "./Pages/ProfilePage";
 import PageError from "./Pages/PageError";
 import EditProfile from "./Pages/EditProfile";
 import DetailPostPage from "./Pages/DetailPostPage";
+import UploadPost from "./Pages/UploadPost";
 
 
 const noAuth = ["/", "/login", "/register", "/detail"];
@@ -66,6 +67,11 @@ const router = createBrowserRouter([
   {
     path: "/detail", // No Authentication Needed
     element: auth.noAuth(DetailPostPage),
+    errorElement: <PageError />,
+  },
+  {
+    path: "/upload", // Need to Login
+    element: auth.noAuth(UploadPost),
     errorElement: <PageError />,
   },
 ]);

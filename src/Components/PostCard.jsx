@@ -9,13 +9,13 @@ import {  faHeart, faComment } from '@fortawesome/free-solid-svg-icons'
 function PostCard() {
   return (
     <Card style={{ width: '100%' }} id='PostCard'>
-      <Col id='UserPost'>
-        <Col id='UserName'>
+      <Col id='UserPost'onClick={() => window.location.assign("/profile")}>
+        <Col id='UserName' >
             <div id='AvatarImage'><img src={SmallImage} alt="" className='AvatarPost' /></div>
             UserName
       </Col>
       </Col>
-      <Card.Img variant="top" src={BigImage} />
+      <Card.Img variant="top" src={BigImage} onClick={() => window.location.assign("/detail")}/>
       <Card.Body className='d-flex row gap-3'>
         <Col id='ActionButtonPost' >
         <FontAwesomeIcon icon={faHeart} />
@@ -27,7 +27,7 @@ function PostCard() {
           bulk of the card's content.
         </Card.Text>
         <Col>
-        <Button variant="primary">View Post</Button>
+        <Button variant="primary" href='/detail'>View Post</Button>
         </Col>
       </Card.Body>
     </Card>

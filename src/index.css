@@ -25,6 +25,11 @@
 
 }
 
+#UserPost:hover{
+    background-color: rgb(233, 233, 233);
+
+}
+
 #UserName{
     display: flex;
     flex-direction: row;

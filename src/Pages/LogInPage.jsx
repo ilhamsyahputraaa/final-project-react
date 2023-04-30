@@ -60,7 +60,7 @@ const LoginPage = () => {
   return (
     <>
         <NavBar />
-        <div className='body d-flex row gap-5'>
+        <div className='body d-flex row gap-5' style={{ height: '100vh' }}>
 
             {/* Content */}
             <div className='Content d-flex row gap-5 col-4'>
