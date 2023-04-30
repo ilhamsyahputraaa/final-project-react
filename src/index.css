@@ -1,9 +1,17 @@
+#NavBar{
+    box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.11);
+}
+
 #NavMenu{
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     gap: 30rem;
     padding: 0rem 3rem;
+}
+
+#PostCard{
+    border-radius: 1rem;
 }
 
 #UserPost{
@@ -32,15 +40,53 @@
     gap: 1rem;
 }
 
-.content{
+.Content{
     align-items: center;
     justify-content: center;
-    padding: 3rem;
-    background-color: white;
+    padding: 3rem 0rem;
+}
+
+.SideBar{
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 0rem;
 }
 
 .body{
-   align-items: center; 
+   align-items: start; 
    justify-content: center;
    background-color: rgb(216, 216, 216);
+}
+
+.UserName{
+    align-items: center;
+    gap: 2rem;
+}
+
+.AvatarImage{
+    width: 4rem;
+    border-radius: 100%;
+}
+
+#ProfileBadge{
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.RegisterButton{
+    display: flex;
+    padding: 1rem;
+    gap: .5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.ReccomendationAccount{
+    justify-content: space-between;
+
+}
+
+.RecAcc{
+    align-items: center;
 }
