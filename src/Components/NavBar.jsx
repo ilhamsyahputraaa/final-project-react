@@ -15,7 +15,7 @@ function NavBar() {
         <Navbar.Collapse id="navbarScroll" >
           {/* Menu */}
           <Nav className='d-flex gap-3'>
-              <Nav.Link href="#action1">Home</Nav.Link>
+              <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="#action1">Explore</Nav.Link>
               <Button variant="primary">Upload</Button>{' '}
           </Nav>

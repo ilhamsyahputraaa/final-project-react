@@ -6,7 +6,7 @@ const PageError = () => {
     <div className="page-error-section">
       <h1 className="mb-5">
         <a href="/" className="error-brand pb-2">
-          iAte
+          PhotoShare
         </a>
       </h1>
       <h1 className="error-text">Oops!</h1>
@@ -16,7 +16,7 @@ const PageError = () => {
         Please try again later or contact us if the problem persists.
       </p>
       <Button className="error-btn btn-success mt-2" onClick={() => window.location.assign("/")}>
-        Back to iAte
+        Back to PhotoShare
       </Button>
     </div>
   );

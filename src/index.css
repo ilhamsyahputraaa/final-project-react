@@ -12,6 +12,8 @@
 
 #PostCard{
     border-radius: 1rem;
+    padding: 0rem;
+    overflow: hidden;
 }
 
 #UserPost{
@@ -55,12 +57,20 @@
 .body{
    align-items: start; 
    justify-content: center;
-   background-color: rgb(216, 216, 216);
+   background-color: rgb(233, 233, 233);
+   height: 100%;
 }
 
 .UserName{
     align-items: center;
     gap: 2rem;
+    display: flex;
+    
+}
+
+.UserNumber{
+    justify-content: space-between;
+    padding: 0rem 2rem;
 }
 
 .AvatarImage{
@@ -72,6 +82,8 @@
     background-color: white;
     padding: 2rem;
     border-radius: 1rem;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .RegisterButton{
@@ -89,4 +101,30 @@
 
 .RecAcc{
     align-items: center;
+}
+
+.FollowingUser{
+    gap: 1rem;
+    justify-content: center;
+    text-align: center;
+}
+
+.FollowingUser, p{
+    font-size: 12px;
+    margin-bottom: 0px;
+}
+
+#Following{
+    padding: 0rem 4rem;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: row;
+}
+
+#FollowingList{
+    padding: 1rem 1rem;
+    background-color: white;
+    border-radius: 1rem;
+    gap: 1rem;
+    overflow: hidden;
 }

@@ -8,7 +8,10 @@ import "./index.css";
 import LoginPage from "./Pages/LogInPage";
 import RegisterPage from "./Pages/RegisterPage";
 import App from "./App";
+import ProfilePage from "./Pages/ProfilePage";
 import PageError from "./Pages/PageError";
+import EditProfile from "./Pages/EditProfile";
+import DetailPostPage from "./Pages/DetailPostPage";
 
 
 const noAuth = ["/", "/login", "/register", "/detail"];
@@ -32,15 +35,6 @@ const auth = {
       }
     }
   },
-  admin: (Component) => {
-    const isLogin = localStorage.getItem("id") ? true : false;
-    const isAdmin = localStorage.getItem("role") === "admin" ? true : false;
-    if (isLogin && isAdmin) {
-      return <Component />;
-    } else {
-      return <PageError />;
-    }
-  },
 };
 
 const router = createBrowserRouter([
@@ -59,16 +53,21 @@ const router = createBrowserRouter([
     element: auth.noAuth(RegisterPage),
     errorElement: <PageError />,
   },
-  // {
-  //   path: "/profile", // Need to Login
-  //   element: auth.login(Profile),
-  //   errorElement: <PageError />,
-  // },
-  // {
-  //   path: "/detail", // No Authentication Needed
-  //   element: auth.noAuth(Detail),
-  //   errorElement: <PageError />,
-  // },
+  {
+    path: "/profile", // Need to Login
+    element: auth.noAuth(ProfilePage),
+    errorElement: <PageError />,
+  },
+  {
+    path: "/editprofile", // Need to Login
+    element: auth.noAuth(EditProfile),
+    errorElement: <PageError />,
+  },
+  {
+    path: "/detail", // No Authentication Needed
+    element: auth.noAuth(DetailPostPage),
+    errorElement: <PageError />,
+  },
 ]);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<RouterProvider router={router} />);

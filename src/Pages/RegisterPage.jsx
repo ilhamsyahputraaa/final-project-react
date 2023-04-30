@@ -52,85 +52,78 @@ const RegisterPage = () => {
 
   return (
     <>
-      <div className="register-section">
-        <NavBar />
-        <div className="register-regist-area">
-          <div className="register-bubble m-auto">
-            <h1 className="login-title">Sign Up</h1>
+    <NavBar />
+    <div className='body d-flex row gap-5'>
 
-            <Form onSubmit={formik.handleSubmit}>
-              <Row>
-                <Col>
-                  {/* Name */}
-                  <Form.Group controlId="name">
-                    <Form.Label className="register-label">Name</Form.Label>
-                    <Form.Control placeholder="Enter Name" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.name} />
-                    <Form.Text style={formErrorStyle}>{formik.touched.name && formik.errors.name}</Form.Text>
-                  </Form.Group>
-                </Col>
-                <Col>
-                  {/* Email */}
-                  <Form.Group controlId="email">
-                    <Form.Label className="register-label">Email</Form.Label>
-                    <Form.Control placeholder="Enter Email" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.email} />
-                    <Form.Text style={formErrorStyle}>{formik.touched.email && formik.errors.email}</Form.Text>
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  {/* Password */}
-                  <Form.Group controlId="password">
-                    <Form.Label className="register-label">Password</Form.Label>
-                    <Form.Control type="password" placeholder="Enter Password" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.password} />
-                    <Form.Text style={formErrorStyle}>{formik.touched.password && formik.errors.password}</Form.Text>
-                  </Form.Group>
-                </Col>
-                <Col>
-                  {/* Confirm Password */}
-                  <Form.Group controlId="passwordRepeat">
-                    <Form.Label className="register-label">Confirm Password</Form.Label>
-                    <Form.Control placeholder="Confirm Password" type="password" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.passwordRepeat} />
-                    <Form.Text style={formErrorStyle}>{formik.touched.passwordRepeat && formik.errors.passwordRepeat}</Form.Text>
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  {/* Role */}
-                  <Form.Group controlId="role">
-                    <Form.Label className="register-label">Role</Form.Label>
-                    <Form.Select aria-label="Select Role" onChange={formik.handleChange} value={formik.values.role}>
-                      <option>Select Role</option>
-                      <option value="user">User</option>
-                      <option value="admin">Admin</option>
-                    </Form.Select>
-                  </Form.Group>
-                </Col>
-              </Row>
+        {/* Content */}
+        <div className='Content d-flex row gap-5 col-4'>
+            <div className="register-section p-5" id="FollowingList">
+                <div className="register-regist-area">
+                <div className="register-bubble m-auto">
+                    <h1 className="login-title mb-4">Sign Up</h1>
 
-              {/* Profile Picture */}
-              <Form.Group controlId="profilePictureUrl" className="mb-3">
-                <Form.Label className="register-label">Profile Picture (Url)</Form.Label>
-                <Form.Control type="text" placeholder="Enter Image Url" onChange={formik.handleChange} value={formik.values.profilePictureUrl} />
-              </Form.Group>
+                    <Form onSubmit={formik.handleSubmit} className="mb-4">
+                    <Row  className="mb-4">
+                        <Col>
+                        {/* Name */}
+                        <Form.Group controlId="name">
+                            <Form.Label className="register-label">Name</Form.Label>
+                            <Form.Control placeholder="Enter Name" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.name} />
+                            <Form.Text style={formErrorStyle}>{formik.touched.name && formik.errors.name}</Form.Text>
+                        </Form.Group>
+                        </Col>
+                        <Col>
+                        {/* Email */}
+                        <Form.Group controlId="email">
+                            <Form.Label className="register-label">Email</Form.Label>
+                            <Form.Control placeholder="Enter Email" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.email} />
+                            <Form.Text style={formErrorStyle}>{formik.touched.email && formik.errors.email}</Form.Text>
+                        </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row  className="mb-4">
+                        <Col>
+                        {/* Password */}
+                        <Form.Group controlId="password">
+                            <Form.Label className="register-label">Password</Form.Label>
+                            <Form.Control type="password" placeholder="Enter Password" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.password} />
+                            <Form.Text style={formErrorStyle}>{formik.touched.password && formik.errors.password}</Form.Text>
+                        </Form.Group>
+                        </Col>
+                        <Col>
+                        {/* Confirm Password */}
+                        <Form.Group controlId="passwordRepeat">
+                            <Form.Label className="register-label">Confirm Password</Form.Label>
+                            <Form.Control placeholder="Confirm Password" type="password" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.passwordRepeat} />
+                            <Form.Text style={formErrorStyle}>{formik.touched.passwordRepeat && formik.errors.passwordRepeat}</Form.Text>
+                        </Form.Group>
+                        </Col>
+                    </Row>
 
-              <Button disabled={!formik.isValid} type="submit" className="login-btn btn-success">
-                Sign Up
-              </Button>
-            </Form>
+                    {/* Profile Picture */}
+                    <Form.Group controlId="profilePictureUrl"  className="mb-4">
+                        <Form.Label className="register-label">Profile Picture (Url)</Form.Label>
+                        <Form.Control type="text" placeholder="Enter Image Url" onChange={formik.handleChange} value={formik.values.profilePictureUrl} />
+                    </Form.Group>
 
-            <span className="regist-text mt-4 pb-3">
-              Already have an account?
-              <a className="regist-link" href="/login">
-                Sign In
-              </a>
-              here
-            </span>
-          </div>
+                    <Button disabled={!formik.isValid} type="submit" variant="primary">
+                        Sign Up
+                    </Button>
+                    </Form>
+
+                    <span className="regist-text mt-4 pb-3">
+                    Already have an account?
+                    <a className="regist-link" href="/login">
+                        Sign In
+                    </a>
+                    </span>
+                </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </>
+
+    </div>
+</>
   );
 };
 
