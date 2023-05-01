@@ -91,45 +91,24 @@ function App() {
       {/* Sidebar Kanan */}
       <div className=' SideBar col-3 d-flex row p-2'>
         <Row id='ProfileBadge'>
-          <h6>Suggested Account</h6>
+          <h6>My Followers</h6>
           <p>Expand your following Circle</p>
-          <div className='d-flex row gap-3 '>
-            <div className='d-flex ReccomendationAccount '>
-            <div className='d-flex gap-2 RecAcc'>
-                <div><img src={AvatarImage} alt="" className='AvatarPost' /></div>
-                UserName
-            </div>
-            <Button variant="primary">Follow</Button>{' '}
-          </div>
-          <div className='d-flex ReccomendationAccount'>
-            <div className='d-flex gap-2 RecAcc'>
-                <div><img src={AvatarImage} alt="" className='AvatarPost' /></div>
-                UserName
-            </div>
-            <Button variant="primary">Follow</Button>{' '}
-          </div>
-          <div className='d-flex ReccomendationAccount'>
-            <div className='d-flex gap-2 RecAcc'>
-                <div><img src={AvatarImage} alt="" className='AvatarPost' /></div>
-                UserName
-            </div>
-            <Button variant="primary">Follow</Button>{' '}
-          </div>
-          <div className='d-flex ReccomendationAccount'>
-            <div className='d-flex gap-2 RecAcc'>
-                <div><img src={AvatarImage} alt="" className='AvatarPost' /></div>
-                UserName
-            </div>
-            <Button variant="primary">Follow</Button>{' '}
-          </div>
 
-          <div className='d-flex ReccomendationAccount'>
-            <div className='d-flex gap-2 RecAcc'>
-                <div><img src={AvatarImage} alt="" className='AvatarPost' /></div>
-                UserName
+          {/* List Container */}
+          <div className='d-flex row gap-3 ReccomendationAccount'>
+
+            {/* Items */}
+            <div className='d-flex ReccomendationAccount'>
+              <div className='d-flex gap-2 RecAcc'>
+                <img src={AvatarImage} alt="" className='AvatarImage' />
+                  <Row>
+                    <h6>ilhamsyahzp</h6> 
+                    <p>Ilhamsyah Putra</p>
+                  </Row> 
+              </div >
+              <div className=' RecAcc'><Button variant="primary">Follow</Button> </div>
             </div>
-            <Button variant="primary">Follow</Button>{' '}
-          </div>
+
           </div>
         </Row>
       </div>

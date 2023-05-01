@@ -17,6 +17,7 @@ function NavBar() {
           <Nav className='d-flex gap-3'>
               <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="#action1">Explore</Nav.Link>
+              <Nav.Link href="#action1">About</Nav.Link>
               <Button variant="primary" href='/upload'>Upload</Button>
           </Nav>
           

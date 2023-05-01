@@ -1,6 +1,6 @@
 import NavBar from "../Components/NavBar";
 
-import { Form, Button, Row } from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -52,55 +52,56 @@ const LoginPage = () => {
     },
   });
 
-  <>
-
-  
-  </>
 
   return (
     <>
         <NavBar />
-        <div className='body d-flex row gap-5' style={{ height: '100vh' }}>
+        <div className='body d-flex row gap-5   justify-content-center align-items-center' style={{ height: '100vh' }}>
 
-            {/* Content */}
-            <div className='Content d-flex row gap-5 col-4'>
+          {/* Container */}
+          <div className='Content d-flex row gap-5 col-4'>
             <div id="FollowingList" className="register-section p-5 ">
-                <div className="login-regist-area">
+              <div className="login-regist-area">
                 <div className="login-bubble mb-2 d-flex row gap-5">
-                    <h1 className="login-title">Sign In</h1>
-                    <Form onSubmit={formik.handleSubmit}>
+                  
+                  {/* Content */}
+                  <h1 className="login-title">Sign In</h1>
+                  <Form onSubmit={formik.handleSubmit}>
+
+                    {/* Email */}
                     <Form.Group className="mb-4 " controlId="email">
-                        <Form.Label className="login-label">Email</Form.Label>
-                        <Form.Control placeholder="Enter Email" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.email} />
-                        <Form.Text style={formErrorStyle}>{formik.touched.email && formik.errors.email}</Form.Text>
+                      <Form.Label className="login-label">Email</Form.Label>
+                      <Form.Control placeholder="Enter Email" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.email} />
+                      <Form.Text style={formErrorStyle}>{formik.touched.email && formik.errors.email}</Form.Text>
                     </Form.Group>
 
+                    {/* Password */}
                     <Form.Group className="mb-4" controlId="password">
-                        <Form.Label className="login-label">Password</Form.Label>
-                        <Form.Control type={passwordShown ? "text" : "password"} placeholder="Enter Password" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.password} />
-                        <Form.Text style={formErrorStyle}>{formik.touched.password && formik.errors.password}</Form.Text>
+                      <Form.Label className="login-label">Password</Form.Label>
+                      <Form.Control type={passwordShown ? "text" : "password"} placeholder="Enter Password" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.password} />
+                      <Form.Text style={formErrorStyle}>{formik.touched.password && formik.errors.password}</Form.Text>
                     </Form.Group>
 
+                    {/* Show Password */}
                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                        <Form.Check className="login-label" type="checkbox" label="Show Password" onClick={handleShowPassword} />
+                      <Form.Check className="login-label" type="checkbox" label="Show Password" onClick={handleShowPassword} />
                     </Form.Group>
 
-                    </Form>
+                    {/* Log In */}
                     <Row>
-                    <Button disabled={!formik.isValid} type="submit" variant="primary">
-                        Log In
-                    </Button>
-                    <span className="regist-text mt-4">
-                    Didn't have an account? 
-                    <a className="regist-link" href="/register">
-                        Sign Up
-                    </a>
-                    </span>
+                      <Button disabled={!formik.isValid} type="submit" variant="primary"> Log In </Button>
+                      <Col className='RegisterButton'>
+                        <span>Or  </span>
+                        <a href="/register"> Register </a>
+                      </Col>
                     </Row>
+                    
+                  </Form>
+
                 </div>
-                </div>
+              </div>
             </div>
-            </div>
+          </div>
 
         </div>
     </>

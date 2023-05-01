@@ -42,6 +42,10 @@
     width: 2rem;
 }
 
+.AvatarImage {
+    width: rem;
+}
+
 #ActionButtonPost{
     display: flex;
     gap: 1rem;
@@ -101,11 +105,17 @@
 
 .ReccomendationAccount{
     justify-content: space-between;
+    max-width: fit-content;
+    width: auto;
+    background-color: white;
 
 }
 
 .RecAcc{
+    display: flex;
     align-items: center;
+    justify-content: center;
+    width: auto;
 }
 
 .FollowingUser{
@@ -132,4 +142,12 @@
     border-radius: 1rem;
     gap: 1rem;
     overflow: hidden;
+}
+
+.FollowingAcc{
+    width: auto;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 1rem;
+    justify-content: space-between;
 }

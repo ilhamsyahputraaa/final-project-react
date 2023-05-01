@@ -74,6 +74,11 @@ const router = createBrowserRouter([
     element: auth.noAuth(UploadPost),
     errorElement: <PageError />,
   },
+  {
+    path: "/eerror", // Need to Login
+    element: auth.noAuth(PageError),
+    errorElement: <PageError />,
+  },
 ]);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<RouterProvider router={router} />);

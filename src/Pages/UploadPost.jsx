@@ -53,7 +53,7 @@ const UploadPost = () => {
   return (
     <>
     <NavBar />
-    <div className='body d-flex row gap-5' style={{ height: '100vh' }}>
+    <div className='body d-flex row gap-5   justify-content-center align-items-center' style={{ height: '100vh' }}>
 
             {/* Content */}
             <div className='Content d-flex row gap-5 col-4 ' >
@@ -67,7 +67,7 @@ const UploadPost = () => {
 
                         <Form.Group controlId="caption" className="uploadPost-group mb-2">
                             <Form.Label className="uploadPost-label">Caption</Form.Label>
-                            <Form.Control placeholder="Food Caption" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.caption} />
+                            <Form.Control placeholder="Image Caption" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.caption} />
                             <Form.Text style={formErrorStyle}>{formik.touched.caption && formik.errors.caption}</Form.Text>
                         </Form.Group>
 

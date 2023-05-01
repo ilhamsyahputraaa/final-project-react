@@ -1,24 +1,35 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+import NavBar from "../Components/NavBar";
+
 
 const PageError = () => {
   return (
-    <div className="page-error-section">
-      <h1 className="mb-5">
-        <a href="/" className="error-brand pb-2">
-          PhotoShare
-        </a>
-      </h1>
-      <h1 className="error-text">Oops!</h1>
-      <p className="error-text-small">
-        It looks like something went wrong.
-        <br />
-        Please try again later or contact us if the problem persists.
-      </p>
-      <Button className="error-btn btn-success mt-2" onClick={() => window.location.assign("/")}>
-        Back to PhotoShare
-      </Button>
+    <>
+    <NavBar />
+    <div className='body d-flex row gap-5  justify-content-center align-items-center' style={{ height: '100vh' }}>
+
+      {/* Container */}
+      <div className='Content d-flex row gap-5 col-4'>    
+      <div id="FollowingList"  className="page-error-section d-flex row gap-4 p-5">
+        <h1 className="error-text">Oops!</h1>
+        <p className="error-text-small">
+          It looks like something went wrong.
+          <br />
+          Please try again later or contact us if the problem persists.
+        </p>
+        <div>
+        <Button variant="primary" onClick={() => window.location.assign("/")}>
+          Back to PhotoShare
+        </Button>          
+        </div>
+
+      </div>
+      </div>
+
     </div>
+    </>
+
   );
 };
 

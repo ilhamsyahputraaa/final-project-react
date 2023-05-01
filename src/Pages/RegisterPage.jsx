@@ -53,7 +53,7 @@ const RegisterPage = () => {
   return (
     <>
     <NavBar />
-    <div className='body d-flex row gap-5' style={{ height: '100vh' }}>
+    <div className='body d-flex row gap-5   justify-content-center align-items-center' style={{ height: '100vh' }}>
 
         {/* Content */}
         <div className='Content d-flex row gap-5 col-4'>
