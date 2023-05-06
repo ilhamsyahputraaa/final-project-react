@@ -29,9 +29,9 @@ const LoginPage = () => {
     onSubmit: (values) => {
       axios({
         method: "post",
-        url: `${process.env.REACT_APP_BASEURL}/api/v1/login`,
+        url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/login`,
         headers: {
-          apiKey: `${process.env.REACT_APP_APIKEY}`,
+          apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
         },
         data: {
           email: values.email,

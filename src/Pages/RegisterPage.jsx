@@ -11,15 +11,18 @@ const RegisterPage = () => {
   const formik = useFormik({
     initialValues: {
       name: "",
+      username: "",
       email: "",
       password: "",
       passwordRepeat: "",
-      role: "",
       profilePictureUrl: "",
       phoneNumber: "",
+      website: "",
+      bio: "",
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Required"),
+      username: Yup.string().required("Required"),
       email: Yup.string().email("Invalid email address").required("Required"),
       password: Yup.string().min(8, "Must be 8 characters or more").required("Required"),
       passwordRepeat: Yup.string().oneOf([Yup.ref("password"), null], "Passwords must match"),
@@ -27,17 +30,20 @@ const RegisterPage = () => {
     onSubmit: (values) => {
       axios({
         method: "post",
-        url: `${process.env.REACT_APP_BASEURL}/api/v1/register`,
+        url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/register`,
         headers: {
-          apiKey: `${process.env.REACT_APP_APIKEY}`,
+          apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
         },
         data: {
           name: values.name,
+          username: values.username,
           email: values.email,
           password: values.password,
           passwordRepeat: values.passwordRepeat,
-          role: values.role,
           profilePictureUrl: values.profilePictureUrl,
+          phoneNumber: values.phoneNumber,
+          bio: values.bio,
+          website: values.website,
         },
       })
         .then(() => {
@@ -63,6 +69,8 @@ const RegisterPage = () => {
                     <h1 className="login-title mb-4">Sign Up</h1>
 
                     <Form onSubmit={formik.handleSubmit} className="mb-4">
+                    
+
                     <Row  className="mb-4">
                         <Col>
                         {/* Name */}
@@ -81,6 +89,8 @@ const RegisterPage = () => {
                         </Form.Group>
                         </Col>
                     </Row>
+
+
                     <Row  className="mb-4">
                         <Col>
                         {/* Password */}
@@ -100,11 +110,37 @@ const RegisterPage = () => {
                         </Col>
                     </Row>
 
+                    {/* Website */}
+                    <Form.Group controlId="username"  className="mb-4">
+                        <Form.Label className="register-label">Username</Form.Label>
+                        <Form.Control type="text" placeholder="Enter Username" onChange={formik.handleChange} value={formik.values.username} />
+                    </Form.Group>
+
+
+                    {/* Website */}
+                    <Form.Group controlId="website"  className="mb-4">
+                        <Form.Label className="register-label">Website</Form.Label>
+                        <Form.Control type="text" placeholder="Enter Your Website" onChange={formik.handleChange} value={formik.values.website} />
+                    </Form.Group>
+
+                    {/* Phone Number */}
+                    <Form.Group controlId="phoneNumber"  className="mb-4">
+                        <Form.Label className="register-label">Phone Number</Form.Label>
+                        <Form.Control type="text" placeholder="Enter Your Phone Number" onChange={formik.handleChange} value={formik.values.phoneNumber} />
+                    </Form.Group>
+
                     {/* Profile Picture */}
                     <Form.Group controlId="profilePictureUrl"  className="mb-4">
                         <Form.Label className="register-label">Profile Picture (Url)</Form.Label>
                         <Form.Control type="text" placeholder="Enter Image Url" onChange={formik.handleChange} value={formik.values.profilePictureUrl} />
                     </Form.Group>
+
+                    {/* Bio */}
+                    <Form.Group controlId="bio"  className="mb-4">
+                        <Form.Label className="register-label">Bio</Form.Label>
+                        <Form.Control type="text" placeholder="Write Your Bio" onChange={formik.handleChange} value={formik.values.bio} />
+                    </Form.Group>
+
 
                     <Button disabled={!formik.isValid} type="submit" variant="primary">
                         Sign Up

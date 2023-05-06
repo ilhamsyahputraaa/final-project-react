@@ -151,3 +151,13 @@
     border-radius: 1rem;
     justify-content: space-between;
 }
+
+.PhotoGridItem{
+    margin: 0;
+    padding: 0.5rem;
+}
+
+.PhotoGrid{
+    align-items: start;
+    justify-content: start;
+}

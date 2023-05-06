@@ -22,6 +22,7 @@ function PostCard() {
         <FontAwesomeIcon icon={faComment} />
         </Col>
         <div className='Likes'>2,331 Likes</div>
+        <Card.Text >Last updated 3 mins ago</Card.Text>
         <Card.Text>
           Some quick example text to build on the card title and make up the
           bulk of the card's content.
