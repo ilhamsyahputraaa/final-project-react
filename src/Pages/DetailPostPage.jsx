@@ -4,12 +4,50 @@ import SmallImage from '../assets/PlaceHolder/100.png';
 import {Button, Card, Row, Col, Container, Form} from 'react-bootstrap';
 import BigImage from '../assets/PlaceHolder/1000.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { faEllipsisVertical, faHeart, faComment } from '@fortawesome/free-solid-svg-icons'
+import { useSearchParams } from "react-router-dom";
+import {faHeart, faComment } from '@fortawesome/free-solid-svg-icons'
+import { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
 
 
 function DetailPostPage() {
+    
+  const [searchParams] = useSearchParams();
+  const [isLoading, setIsLoading] = useState(true);
+  const myKeysValues = window.location.search;
+
+  const urlParams = new URLSearchParams(myKeysValues);
+  const postId = urlParams.get('postId')
+  console.log(window.location.search);
+
+  const [postDetail, setPostDetail] = useState([])
+
+// Get food and food review by ID
+const getPostDetail = useCallback(() => {
+    axios({
+        method: "get",
+        url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/post/${postId}`,
+        headers: {
+        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+        Authorization: `Bearer ${import.meta.env.VITE_REACT_JWT_TOKEN}`,
+        },
+    })
+        .then((response) => {
+            console.log(response)
+        setPostDetail(response.data.data);
+        setIsLoading(false);
+        })
+        .catch((error) => {
+        console.log(error);
+        });
+    }, []);
+
+
+    useEffect(() => {
+        getPostDetail();
+    }, [isLoading, postId]);
+
+  
 
 
 
@@ -38,7 +76,7 @@ function DetailPostPage() {
             <Row>
                 <Col id='ActionButtonPost'>
                     <FontAwesomeIcon icon={faHeart} />
-                    <Col className='Likes'>2,331 Likes</Col>
+                    <Col className='Likes'>234 Likes</Col>
                 </Col>
                 <Col id='ActionButtonPost'>
                     <FontAwesomeIcon icon={faComment} />
@@ -47,8 +85,7 @@ function DetailPostPage() {
             </Row>
             
             <Card.Text>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+            {postDetail.caption}
             </Card.Text>
         </Card>
         <Container id='ProfileBadge' className='gap-1 p-4'>

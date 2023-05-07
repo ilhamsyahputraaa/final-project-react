@@ -6,26 +6,25 @@ import {  faHeart, faComment } from '@fortawesome/free-solid-svg-icons'
 
 
 
-function PostCard() {
+function PostCard(props) {
   return (
     <Card style={{ width: '100%' }} id='PostCard'>
       <Col id='UserPost'onClick={() => window.location.assign("/profile")}>
         <Col id='UserName' >
-            <div id='AvatarImage'><img src={SmallImage} alt="" className='AvatarPost' /></div>
-            UserName
+            <div id='AvatarImage'><img src={props.avatar} alt="" className='AvatarPost' /></div>
+            {props.username}
       </Col>
       </Col>
-      <Card.Img variant="top" src={BigImage} onClick={() => window.location.assign("/detail")}/>
+      <Card.Img variant="top" src={props.postImage} onClick={() => window.location.assign(`/detail?/postId=${props.postId}`)}/>
       <Card.Body className='d-flex row gap-3'>
         <Col id='ActionButtonPost' >
-        <FontAwesomeIcon icon={faHeart} />
-        <FontAwesomeIcon icon={faComment} />
+        <FontAwesomeIcon icon={faHeart} onClick={props.handleLike} />
+        <FontAwesomeIcon icon={faComment} onClick={() => window.location.assign("/detail")} />
         </Col>
-        <div className='Likes'>2,331 Likes</div>
-        <Card.Text >Last updated 3 mins ago</Card.Text>
+        <div className='Likes'>{props.likes} Likes</div>
+        <Card.Text >Last updated {props.lastUpdate}</Card.Text>
         <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
+          {props.caption}
         </Card.Text>
         <Col>
         <Button variant="primary" href='/detail'>View Post</Button>
