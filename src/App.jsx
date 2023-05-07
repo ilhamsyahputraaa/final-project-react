@@ -9,9 +9,31 @@ import { Col, Row, Button, Container } from 'react-bootstrap';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [myInfo, setMyInfo] = useState ({});
+
+  // Get My Info
+  const getMyInfo = () => {
+    axios({
+      method: "get",
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/user/${localStorage.getItem("id")}`,
+      headers: {
+        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+        Authorization: `Bearer ${import.meta.env.VITE_REACT_JWT_TOKEN}`,
+      },
+    })
+      .then((response) => {
+        console.log(response.data.data);
+        // setMostFavorite(response.data.data.sort((a, b) => b.totalLikes - a.totalLikes).filter((e, i) => i < 3));
+        setIsLoading(false);
+        setMyInfo(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   // Get All Post
-  const getExploreList = () => {
+  const getExplorePost = () => {
     axios({
       method: "get",
       url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/explore-post?size=10&page=1`,
@@ -30,8 +52,74 @@ function App() {
       });
   };
 
+    // Get Following Post
+    const getFollowingPost = () => {
+      axios({
+        method: "get",
+        url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/following-post?size=10&page=1`,
+        headers: {
+          apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+          Authorization: `Bearer ${import.meta.env.VITE_REACT_JWT_TOKEN}`,
+        },
+      })
+        .then((response) => {
+          console.log(response.data.data);
+          // setMostFavorite(response.data.data.sort((a, b) => b.totalLikes - a.totalLikes).filter((e, i) => i < 3));
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+
+    //Get My Followers List
+    const getFollowingList = () => {
+      axios({
+        method: "get",
+        url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/my-following?size=10&page=1`,
+        headers: {
+          apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+          Authorization: `Bearer ${import.meta.env.VITE_REACT_JWT_TOKEN}`,
+        },
+      })
+        .then((response) => {
+          console.log(response.data.data);
+          // setMostFavorite(response.data.data.sort((a, b) => b.totalLikes - a.totalLikes).filter((e, i) => i < 3));
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+
+    //Get My Followers List
+    const getFollowersList = () => {
+      axios({
+        method: "get",
+        url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/my-followers?size=10&page=1`,
+        headers: {
+          apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+          Authorization: `Bearer ${import.meta.env.VITE_REACT_JWT_TOKEN}`,
+        },
+      })
+        .then((response) => {
+          console.log(response.data.data);
+          // setMostFavorite(response.data.data.sort((a, b) => b.totalLikes - a.totalLikes).filter((e, i) => i < 3));
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+
+
+
   useEffect(() => {
-    getExploreList();
+    getMyInfo();
+    getExplorePost();
+    getFollowingPost();
+    getFollowingList();
+    getFollowersList();
   }, [isLoading]);
 
   return (
@@ -42,16 +130,16 @@ function App() {
       <div className=' SideBar col-3 d-flex row gap-4 p-2 '>
         <Row id='ProfileBadge' className='gap-4'>
           <Col className='d-flex col UserName'>
-            <img src={AvatarImage} alt="" className='AvatarImage'/> 
+            <img src={myInfo.profilePictureUrl} alt="" className='AvatarImage'/> 
               <Row>
-                <h4>ilhamsyahzp</h4> 
-                <p>Ilhamsyah Putra</p>
+                <h4>{myInfo.username}</h4> 
+                <p>{myInfo.name}</p>
               </Row>  
           </Col>
         <Col className='d-flex col mt-4 gap-4'>
         <Row> <p>Posted</p> <h2>3</h2></Row>
-        <Row> <p>Following</p> <h2>12</h2></Row>
-        <Row> <p>Followers</p> <h2>42</h2></Row>
+        <Row> <p>Following</p> <h2>{myInfo.totalFollowing}</h2></Row>
+        <Row> <p>Followers</p> <h2>{myInfo.totalFollowers}</h2></Row>
         </Col>
         <Button variant="primary" onClick={() => window.location.assign("/profile")}>View Profile</Button>{' '}
         </Row>

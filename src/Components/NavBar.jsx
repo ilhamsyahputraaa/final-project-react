@@ -1,13 +1,54 @@
+import { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import axios from 'axios';
 
 function NavBar() {
+
+  const [isLogin, setIsLogin] = useState(false);
+  const jwtToken = localStorage.getItem("token");
+
+  const handleIsLogin = () => {
+    localStorage.getItem("id") ? setIsLogin(true) : setIsLogin(false);
+  };
+
+  //Logout
+  const handleLogout = () => {
+    alert("You have logged out!");
+    localStorage.removeItem("name");
+    localStorage.removeItem("id");
+    localStorage.removeItem("token");
+    setIsLogin(false);
+  }
+
+  useEffect(() => {
+    handleIsLogin()
+  
+    if (isLogin) {
+    axios({
+      method: "get",
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/user`,
+      headers :{
+        Authorization: `Bearer ${jwtToken}`,
+        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+      },
+    })
+    .then()
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+  }, [isLogin, jwtToken]);
+
+
+
+
   return (
     <Navbar bg="light" expand="lg" id='NavBar'>
-      <Container fluid  id='NavMenu'>
+      <Container fluid  id='NavMenu' >
         {/* Brand */}
         <Navbar.Brand href="/">Photo Share</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -22,13 +63,16 @@ function NavBar() {
           </Nav>
           
         </Navbar.Collapse>
+
         {/* DropDown */}
-        <NavDropdown title="Username" id="navbarScrollingDropdown">
-          <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+        {isLogin ? 
+        (<NavDropdown title={localStorage.getItem("username")} id="navbarScrollingDropdown">
           <NavDropdown.Item href="/profile">View Profile</NavDropdown.Item>
           <NavDropdown.Divider />
-          <NavDropdown.Item href="#action5">Log Out</NavDropdown.Item>
-        </NavDropdown>
+          <NavDropdown.Item onClick={handleLogout}>Log Out</NavDropdown.Item>
+        </NavDropdown>): 
+        (<Button variant="primary" onClick={() => window.location.assign("/login")}>Log In</Button> )}
+
       </Container>
     </Navbar>
   );

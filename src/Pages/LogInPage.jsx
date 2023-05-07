@@ -41,7 +41,7 @@ const LoginPage = () => {
         .then((response) => {
           localStorage.setItem("name", response.data.user.name);
           localStorage.setItem("id", response.data.user.id);
-          localStorage.setItem("role", response.data.user.role);
+          localStorage.setItem("username", response.data.user.username);
           localStorage.setItem("token", response.data.token);
           alert("You have signed in!");
           window.location.assign("/");
