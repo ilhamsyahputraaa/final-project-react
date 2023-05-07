@@ -15,7 +15,7 @@ function PostCard(props) {
             {props.username}
       </Col>
       </Col>
-      <Card.Img variant="top" src={props.postImage} onClick={() => window.location.assign(`/detail?/postId=${props.postId}`)}/>
+      <Card.Img variant="top" src={props.postImage} onClick={() => window.location.assign(`/detail?postId=${props.postId}`)}/>
       <Card.Body className='d-flex row gap-3'>
         <Col id='ActionButtonPost' >
         <FontAwesomeIcon icon={faHeart} onClick={props.handleLike} />

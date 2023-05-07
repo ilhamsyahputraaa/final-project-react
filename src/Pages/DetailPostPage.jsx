@@ -21,6 +21,7 @@ function DetailPostPage() {
   console.log(window.location.search);
 
   const [postDetail, setPostDetail] = useState([])
+  const [postUser, setPostUser] = useState([])
 
 // Get food and food review by ID
 const getPostDetail = useCallback(() => {
@@ -33,8 +34,9 @@ const getPostDetail = useCallback(() => {
         },
     })
         .then((response) => {
-            console.log(response)
+            console.log(response.data.data)
         setPostDetail(response.data.data);
+        setPostUser(response.data.data.user)
         setIsLoading(false);
         })
         .catch((error) => {
@@ -61,11 +63,10 @@ const getPostDetail = useCallback(() => {
         <Card style={{ width: '100%' }} id='PostCard'>
             <Col id='UserPost'>
                 <Col id='UserName'>
-                    <div id='AvatarImage'><img src={SmallImage} alt="" className='AvatarPost' /></div>
-                    UserName
+                    <div id='AvatarImage'><img src={postUser.profilePictureUrl} alt="" className='AvatarPost' /></div>{postUser.username}
             </Col>
             </Col>
-            <Card.Img variant="top" src={BigImage} />
+            <Card.Img variant="top" src={postDetail.imageUrl} />
             
         </Card>
       </div>
@@ -78,12 +79,10 @@ const getPostDetail = useCallback(() => {
                     <FontAwesomeIcon icon={faHeart} />
                     <Col className='Likes'>234 Likes</Col>
                 </Col>
-                <Col id='ActionButtonPost'>
-                    <FontAwesomeIcon icon={faComment} />
-                    <Col className='Likes'>2,331 Comments</Col>
-                </Col>
             </Row>
-            
+            <Card.Text>
+            {postDetail.updatedAt}
+            </Card.Text>
             <Card.Text>
             {postDetail.caption}
             </Card.Text>
