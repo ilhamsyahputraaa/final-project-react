@@ -5,13 +5,14 @@ import {Button, Card, Row, Col, Container, Form} from 'react-bootstrap';
 import BigImage from '../assets/PlaceHolder/1000.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSearchParams } from "react-router-dom";
-import {faHeart, faComment } from '@fortawesome/free-solid-svg-icons'
+import {faHeart, faComment, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { useFormik } from 'formik';
+import * as Yup from "yup";
 
 
 function DetailPostPage() {
-    
   const [searchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const myKeysValues = window.location.search;
@@ -22,27 +23,91 @@ function DetailPostPage() {
 
   const [postDetail, setPostDetail] = useState([])
   const [postUser, setPostUser] = useState([])
+  const [commentList, setCommentList] = useState([])
+  const jwtToken = localStorage.getItem("token");
 
-// Get food and food review by ID
-const getPostDetail = useCallback(() => {
+    // Get food and food review by ID
+    const getPostDetail = useCallback(() => {
     axios({
         method: "get",
         url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/post/${postId}`,
         headers: {
         apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
-        Authorization: `Bearer ${import.meta.env.VITE_REACT_JWT_TOKEN}`,
+        Authorization: `Bearer ${jwtToken}`,
         },
     })
         .then((response) => {
-            console.log(response.data.data)
+        console.log(response.data.data);
         setPostDetail(response.data.data);
-        setPostUser(response.data.data.user)
+        setPostUser(response.data.data.user);
+        setCommentList(response.data.data.comments);
         setIsLoading(false);
         })
         .catch((error) => {
         console.log(error);
         });
     }, []);
+
+    // Add Comment Submission
+    const handleCommentSubmit = (e) => {
+        e.preventDefault();
+        addComment.submitForm();
+    };
+
+    // Add Comment
+    const addComment = useFormik({
+        initialValues: {
+          comment: "",
+        },
+        validationSchema: Yup.object({
+          comment: Yup.string().required(),
+        }),
+        onSubmit: (values) => {
+          axios({
+            method: "post",
+            url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/create-comment`,
+            headers: {
+              apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+              Authorization: `Bearer ${jwtToken}`,
+            },
+            data: {
+              postId: postId,
+              comment: values.comment,
+            },
+          })
+            .then(() => {
+              alert("Comment has been submitted");
+              window.location.reload();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        },
+    });
+
+    // Delete Comment
+    const handleDeleteComment = (commentId) => {
+        if (window.confirm("Are you sure you want to delete this comment? This change cannot be undone!")) {
+        axios({
+            method: "delete",
+            url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/delete-comment/${commentId}`,
+            headers: {
+            apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+            Authorization: `Bearer ${jwtToken}`,
+            },
+        })
+            .then(() => {
+            alert(`This Comment has been deleted.`);
+            window.location.reload();
+            })
+            .catch((error) => {
+            console.log(error);
+            });
+        }
+    };
+
+
+
 
 
     useEffect(() => {
@@ -89,63 +154,36 @@ const getPostDetail = useCallback(() => {
         </Card>
         <Container id='ProfileBadge' className='gap-1 p-4'>
           <h6>Comments</h6>
-          <Form.Group className="mb-5" controlId="review">
+          <Form onSubmit={handleCommentSubmit}>
+            <Form.Group className="mb-5" controlId="comment" >
                 <Form.Control
                 className="detail-review-control mb-3"
                 as="textarea"
                 placeholder="Write A Comment"
-                // onBlur={addReview.handleBlur}
-                // onChange={addReview.handleChange}
-                // value={addReview.values.review}
+                onChange={addComment.handleChange}
+                value={addComment.values.comment}
                 />
                 <Button variant="primary" type="submit">
                 Post Comment
                 </Button>   
             </Form.Group>
+          </Form>
+          
             
           <Row className='d-flex row gap-3 '>
             {/* Comments */}
+            {commentList.map(comment => (
             <div id='CommentItem' className='d-flex gap-3'>
                 <span>
-                    <img src={AvatarImage} alt="" className='AvatarPost' />
+                    <img src={comment.user.profilePictureUrl} alt="" className='AvatarPost' />
                 </span>
                 <span>
-                    <h6>UserName</h6>
-                    <p> Some quick example text to build on the card title and make up the
-                bulk of the card's content. </p>
+                    <h6>{comment.user.username}</h6>
+                    <p> {comment.comment}</p>
                 </span>
-            </div>
-
-            <div id='CommentItem' className='d-flex gap-3'>
-                <span>
-                    <img src={AvatarImage} alt="" className='AvatarPost' />
-                </span>
-                <span>
-                    <h6>UserName</h6>
-                    <p> Some quick example text to build on the card title and make up the
-                bulk of the card's content. </p>
-                </span>
-            </div>
-            <div id='CommentItem' className='d-flex gap-3'>
-                <span>
-                    <img src={AvatarImage} alt="" className='AvatarPost' />
-                </span>
-                <span>
-                    <h6>UserName</h6>
-                    <p> Some quick example text to build on the card title and make up the
-                bulk of the card's content. </p>
-                </span>
-            </div>
-            <div id='CommentItem' className='d-flex gap-3'>
-                <span>
-                    <img src={AvatarImage} alt="" className='AvatarPost' />
-                </span>
-                <span>
-                    <h6>UserName</h6>
-                    <p> Some quick example text to build on the card title and make up the
-                bulk of the card's content. </p>
-                </span>
-            </div>
+                {comment.user.id === localStorage.getItem("id") ? (<FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteComment(comment.id)}/>) : (null)}
+            </div>                
+            ))};
           </Row>
         </Container>
       </div>

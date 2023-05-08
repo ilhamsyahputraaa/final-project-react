@@ -8,7 +8,7 @@ import {  faHeart, faComment } from '@fortawesome/free-solid-svg-icons'
 
 function PostCard(props) {
   return (
-    <Card style={{ width: '100%' }} id='PostCard'>
+    <Card style={{ width: '100%' }} id='PostCard' key={props.i}>
       <Col id='UserPost'onClick={() => window.location.assign("/profile")}>
         <Col id='UserName' >
             <div id='AvatarImage'><img src={props.avatar} alt="" className='AvatarPost' /></div>
@@ -19,9 +19,8 @@ function PostCard(props) {
       <Card.Body className='d-flex row gap-3'>
         <Col id='ActionButtonPost' >
         <FontAwesomeIcon icon={faHeart} onClick={props.handleLike} />
-        <FontAwesomeIcon icon={faComment} onClick={() => window.location.assign("/detail")} />
-        </Col>
         <div className='Likes'>{props.likes} Likes</div>
+        </Col>
         <Card.Text >Last updated {props.lastUpdate}</Card.Text>
         <Card.Text>
           <span><h6>{props.username}</h6>{props.caption}</span><span></span>

@@ -127,7 +127,12 @@
 
 .FollowingUser, p{
     font-size: 12px;
-    margin-bottom: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+p{
+    padding: 0px;
 }
 
 #Following{

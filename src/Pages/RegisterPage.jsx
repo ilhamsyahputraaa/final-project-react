@@ -138,7 +138,7 @@ const RegisterPage = () => {
                     {/* Bio */}
                     <Form.Group controlId="bio"  className="mb-4">
                         <Form.Label className="register-label">Bio</Form.Label>
-                        <Form.Control type="text" placeholder="Write Your Bio" onChange={formik.handleChange} value={formik.values.bio} />
+                        <Form.Control type="text" as="textarea" placeholder="Write Your Bio" onChange={formik.handleChange} value={formik.values.bio} />
                     </Form.Group>
 
 

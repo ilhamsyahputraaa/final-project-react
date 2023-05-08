@@ -15,14 +15,27 @@ function NavBar() {
     localStorage.getItem("id") ? setIsLogin(true) : setIsLogin(false);
   };
 
-  //Logout
+  //Get My Followers List
   const handleLogout = () => {
-    alert("You have logged out!");
-    localStorage.removeItem("name");
-    localStorage.removeItem("id");
-    localStorage.removeItem("token");
-    setIsLogin(false);
-  }
+    axios({
+      method: "get",
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/logout`,
+      headers: {
+        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+        Authorization: `Bearer ${import.meta.env.VITE_REACT_JWT_TOKEN}`,
+      },
+    })
+      .then((response) => {
+        alert("You have logged out!");
+        localStorage.removeItem("name");
+        localStorage.removeItem("id");
+        localStorage.removeItem("token");
+        setIsLogin(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
     handleIsLogin()
