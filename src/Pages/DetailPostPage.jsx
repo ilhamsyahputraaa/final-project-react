@@ -106,6 +106,27 @@ function DetailPostPage() {
         }
     };
 
+    // Delete Post
+    const handleDeletePost = (postId) => {
+      if (window.confirm("Are you sure you want to delete this Post? This change cannot be undone!")) {
+      axios({
+          method: "delete",
+          url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/delete-post/${postId}`,
+          headers: {
+          apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+          Authorization: `Bearer ${jwtToken}`,
+          },
+      })
+          .then(() => {
+          alert(`This Post has been deleted.`);
+          window.location.assign("/");
+          })
+          .catch((error) => {
+          console.log(error);
+          });
+      }
+  };
+
 
 
 
@@ -130,6 +151,7 @@ function DetailPostPage() {
                 <Col id='UserName'>
                     <div id='AvatarImage'><img src={postUser.profilePictureUrl} alt="" className='AvatarPost' /></div>{postUser.username}
             </Col>
+            {postUser.id === localStorage.getItem("id") ? (<FontAwesomeIcon icon={faTrash} onClick={() => handleDeletePost(postDetail.id)}/>) : (null)}
             </Col>
             <Card.Img variant="top" src={postDetail.imageUrl} />
             

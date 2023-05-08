@@ -31,6 +31,7 @@ function NavBar() {
         localStorage.removeItem("id");
         localStorage.removeItem("token");
         setIsLogin(false);
+        window.location.assign("/");
       })
       .catch((error) => {
         console.log(error);
