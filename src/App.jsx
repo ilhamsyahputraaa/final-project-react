@@ -17,6 +17,7 @@ function App() {
   const [followingPost, setFollowingPost] = useState([])
   const [followingList, setFollowingList] = useState([])
   const [followerList, setFollowerList] = useState([])
+  const [explorePost, setExplorePost] = useState([])
 
   //Handle Is Login
   const handleIsLogin = () => {
@@ -50,7 +51,7 @@ function App() {
   };
 
   // Get All Post
-  const getExplorePost = () => {
+  const getExplorePost = useCallback(() => {
     axios({
       method: "get",
       url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/explore-post?size=10&page=1`,
@@ -60,14 +61,15 @@ function App() {
       },
     })
       .then((response) => {
-        // console.log(response.data.data);
+        console.log(response.data.data);
         // setMostFavorite(response.data.data.sort((a, b) => b.totalLikes - a.totalLikes).filter((e, i) => i < 3));
         setIsLoading(false);
+        setExplorePost(response.data.data.posts)
       })
       .catch((error) => {
         console.log(error);
       });
-  };
+  }, []);
 
   // Get Following Post
   const getFollowingPost = useCallback(() => {
@@ -80,7 +82,7 @@ function App() {
       },
     })
       .then((response) => {
-        console.log(response.data.data.posts);
+        // console.log(response.data.data.posts);
         // setMostFavorite(response.data.data.sort((a, b) => b.totalLikes - a.totalLikes).filter((e, i) => i < 3));
         setIsLoading(false);
         setFollowingPost(response.data.data.posts);
@@ -201,15 +203,31 @@ function App() {
 
       {/* Content */}
       <div className='Content d-flex row gap-4 col-5 p-2'>
+          
         <Container fluid id='FollowingList' className='d-flex '>
           {followingList.map(following => (
           <Row className='d-flex FollowingUser col-2'><img src={following.profilePictureUrl} alt="" className='AvatarImage'/> <p>{following.username}</p> </Row>
           ))}
         </Container>
 
-        <div className='p-0 d-flex row gap-3'>
+        {/* <div className='p-0 d-flex row gap-3'>
           {followingPost.map(post => (
             <PostCard 
+              key={post.id}
+              avatar={post.user.profilePictureUrl}
+              username={post.user.username}
+              postImage={post.imageUrl}
+              likes={post.totalLikes}
+              lastUpdate={post.updatedAt}
+              caption={post.caption}
+              postId={post.id}
+            />
+          ))}
+        </div> */}
+          
+        <div className='p-0 d-flex row gap-3'>
+          {explorePost.map(post => (
+            <PostCard
               key={post.id}
               avatar={post.user.profilePictureUrl}
               username={post.user.username}
@@ -224,8 +242,8 @@ function App() {
       </div>
 
       {/* Sidebar Kanan */}
-      <div className=' SideBar col-3 d-flex row p-2'>
-        <Row id='ProfileBadge'>
+        <div className=' SideBar col-3 d-flex row p-2'>
+          {isLogin ? (<Row id='ProfileBadge'>
           <h6>My Followers</h6>
           <p>Expand your following Circle</p>
 
@@ -248,7 +266,8 @@ function App() {
 
 
           </div>
-        </Row>
+        </Row>) : (null)}
+        
       </div>
     </div>
     

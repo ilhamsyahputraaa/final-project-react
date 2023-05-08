@@ -24,10 +24,11 @@ function PostCard(props) {
         <div className='Likes'>{props.likes} Likes</div>
         <Card.Text >Last updated {props.lastUpdate}</Card.Text>
         <Card.Text>
-          {props.caption}
+          <span><h6>{props.username}</h6>{props.caption}</span><span></span>
+          
         </Card.Text>
         <Col>
-        <Button variant="primary" href='/detail'>View Post</Button>
+          <Button variant="primary" href={`/detail?postId=${props.postId}`}>View Post</Button>
         </Col>
       </Card.Body>
     </Card>
