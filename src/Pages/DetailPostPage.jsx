@@ -149,7 +149,7 @@ function DetailPostPage() {
       <div className='Content d-flex row gap-5 col-5'>
         <Card style={{ width: '100%' }} id='PostCard'>
             <Col id='UserPost'>
-                <Col id='UserName'>
+              <Col id='UserName' onClick={() => window.location.assign(`/profile?userId=${postUser.id}`)}>
                     <div id='AvatarImage'><img src={postUser.profilePictureUrl} alt="" className='AvatarPost' /></div>{postUser.username}
             </Col>
             {postUser.id === localStorage.getItem("id") ? (<FontAwesomeIcon icon={faTrash} onClick={() => handleDeletePost(postDetail.id)}/>) : (null)}
@@ -198,7 +198,7 @@ function DetailPostPage() {
             {commentList.map(comment => (
             <div id='CommentItem' className='d-flex gap-3'>
                 <span>
-                    <img src={comment.user.profilePictureUrl} alt="" className='AvatarPost' />
+                  <img src={comment.user.profilePictureUrl} alt="" className='AvatarPost' onClick={() => window.location.assign(`/profile?userId=${comment.user.id}`)} />
                 </span>
                 <span>
                     <h6>{comment.user.username}</h6>

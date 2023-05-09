@@ -10,44 +10,38 @@ const UploadPost = () => {
   const jwtToken = localStorage.getItem("token");
   const formErrorStyle = { color: "red", fontSize: "12px", padding: "0", margin: "0" };
 
-  const [ingredients, setIngredients] = useState([]);
-
   // Upload Post Formik
   const formik = useFormik({
     initialValues: {
-      name: "",
       caption: "",
       imageUrl: "",
-      ingredients: [],
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Required"),
       caption: Yup.string().required("Required"),
       imageUrl: Yup.string().url("Invalid URL").required("Required"),
-      ingredients: Yup.array().of(Yup.string()),
     }),
-    // onSubmit: (values) => {
-    //   axios({
-    //     method: "post",
-    //     url: `${process.env.REACT_APP_BASEURL}/api/v1/create-food`,
-    //     headers: {
-    //       apiKey: `${process.env.REACT_APP_APIKEY}`,
-    //       Authorization: `Bearer ${jwtToken}`,
-    //     },
-    //     data: {
-    //       caption: values.caption,
-    //       imageUrl: values.imageUrl,
-    //     },
-    //   })
-    //     .then(() => {
-    //       alert("Your food has been successfully added!");
-    //       window.location.assign("/foods");
-    //     })
-    //     .catch((error) => {
-    //       alert("Something wrong happened!");
-    //       console.log(error);
-    //     });
-    // },
+    onSubmit: (values) => {
+      axios({
+        method: "post",
+        url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/create-post`,
+        headers: {
+          apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+          Authorization: `Bearer ${jwtToken}`,
+        },
+        data: {
+          caption: values.caption,
+          imageUrl: values.imageUrl,
+        },
+      })
+        .then(() => {
+          alert("Your food has been successfully added!");
+          window.location.assign(`/profile?userId=${comment.user.id}`);
+        })
+        .catch((error) => {
+          alert("Something wrong happened!");
+          console.log(error);
+        });
+    },
   });
 
   return (
