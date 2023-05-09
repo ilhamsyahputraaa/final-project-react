@@ -19,7 +19,7 @@ function App() {
   const [followerList, setFollowerList] = useState([])
   const [explorePosts, setExplorePosts] = useState([])
 
-  const [toggleFollow, setToggleFollow] = useState(false);
+ 
   const jwtToken = localStorage.getItem("token");
 
   //Handle Is Login
@@ -27,51 +27,6 @@ function App() {
     localStorage.getItem("id") ? setIsLogin(true) : setIsLogin(false);
   };
 
-  // Handle follow
-  const handleFollow = (follower) => {
-    const userId = follower.id
-    axios({
-      method: "post",
-      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/follow`,
-      headers: {
-        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
-        Authorization: `Bearer ${jwtToken}`,
-      },
-      data: {
-        userId: userId,
-      }
-    })
-      .then(() => {
-        setToggleFollow((prevState) => !prevState)
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  // Handle unfollow
-  const handleUnFollow = (follower) => {
-    const userId = follower.id
-    axios({
-      method: "post",
-      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/unfollow`,
-      headers: {
-        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
-        Authorization: `Bearer ${jwtToken}`,
-      },
-      data: {
-        userId: userId,
-      }
-    })
-      .then(() => {
-        setToggleFollow((prevState) => !prevState)
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  // Handle View Profile
 
   // Get My Info
   const getMyInfo = () => {
@@ -207,7 +162,7 @@ function App() {
     getFollowingList();
     getFollowersList();
     handleIsLogin();
-  }, [isLoading, isLogin, toggleFollow]);
+  }, [isLoading, isLogin]);
 
   return (
     <>

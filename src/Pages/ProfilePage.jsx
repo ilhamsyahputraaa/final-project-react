@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {Container,  Row, Col, Button, Nav, Tabs, Tab} from 'react-bootstrap';
 import AvatarImage from '../assets/PlaceHolder/100.png';
 import NavBar from '../Components/NavBar';
@@ -5,6 +6,157 @@ import PostCard from '../Components/PostCard';
 import PostCardSmall from '../Components/PostCardSmall';
 
 function ProfilePage() {
+
+  const [toggleFollow, setToggleFollow] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // States
+  const [userInfo, setUserInfo] = useState([]);
+  const [userPost, setUserPost] = useState([]);
+  const [userFollowing, setUserFollowing] = useState([]);
+  const [userFollowers, setUserFollowers] = useState([]);
+
+
+  // Get UserID
+  const myKeysValues = window.location.search;
+  const urlParams = new URLSearchParams(myKeysValues);
+  const userId = urlParams.get('userId');
+
+
+  // Get From Local Storage
+  const jwtToken = localStorage.getItem("token");
+  const myId = localStorage.getItem("id");
+
+  // Get User Info
+  const getUserInfo = () => {
+    axios({
+      method: "get",
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/user/${userId}`,
+      headers: {
+        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    })
+      .then((response) => {
+        console.log(response.data.data);
+        // setMostFavorite(response.data.data.sort((a, b) => b.totalLikes - a.totalLikes).filter((e, i) => i < 3));
+        setIsLoading(false);
+        setUserInfo(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // Get Post by Id
+  const getUserPost = () => {
+    axios({
+      method: "get",
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/users-post/${userId}?size=10&page=1`,
+      headers: {
+        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    })
+      .then((response) => {
+        setIsLoading(false);
+        setUserPost(response.data.data.users)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // Get Followers by Id
+  const getUserFollowsers = () => {
+    axios({
+      method: "get",
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/followers/${userId}?size=10&page=1`,
+      headers: {
+        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    })
+      .then((response) => {
+        setIsLoading(false);
+        setUserFollowers(response.data.data.users)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // Get Following by Id
+  const getUserFollowing = () => {
+    axios({
+      method: "get",
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/following/${userId}?size=10&page=1`,
+      headers: {
+        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    })
+      .then((response) => {
+        setIsLoading(false);
+        setUserFollowing(response.data.data.users)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // Handle follow
+  const handleFollow = (follower) => {
+    const userId = follower.id
+    axios({
+      method: "post",
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/follow`,
+      headers: {
+        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+        Authorization: `Bearer ${jwtToken}`,
+      },
+      data: {
+        userId: userId,
+      }
+    })
+      .then(() => {
+        setToggleFollow((prevState) => !prevState)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // Handle unfollow
+  const handleUnFollow = (follower) => {
+    const userId = follower.id
+    axios({
+      method: "post",
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/unfollow`,
+      headers: {
+        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+        Authorization: `Bearer ${jwtToken}`,
+      },
+      data: {
+        userId: userId,
+      }
+    })
+      .then(() => {
+        setToggleFollow((prevState) => !prevState)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getUserInfo();
+    getUserFollowing();
+    getUserFollowsers();
+    getUserPost();
+  }, [isLoading, postId]);
+
+
   return (
     <>
     <NavBar />

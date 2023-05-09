@@ -15,10 +15,11 @@ import * as Yup from "yup";
 function DetailPostPage() {
   const [searchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
-  const myKeysValues = window.location.search;
 
+  // Get Post Id
+  const myKeysValues = window.location.search;
   const urlParams = new URLSearchParams(myKeysValues);
-  const postId = urlParams.get('postId')
+  const postId = urlParams.get('postId');
   console.log(window.location.search);
 
   const [postDetail, setPostDetail] = useState([])
