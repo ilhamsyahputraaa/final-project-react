@@ -97,7 +97,7 @@ function App() {
   };
 
   // Get All Post
-  const getExplorePost = useCallback(() => {
+  const getExplorePosts = useCallback(() => {
     axios({
       method: "get",
       url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/explore-post?size=10&page=1`,
@@ -107,10 +107,10 @@ function App() {
       },
     })
       .then((response) => {
-        // console.log(response.data.data);
+        console.log(response.data.data.posts);
         // setMostFavorite(response.data.data.sort((a, b) => b.totalLikes - a.totalLikes).filter((e, i) => i < 3));
-        setExplorePosts(response.data.data.posts)
         setIsLoading(false);
+        setExplorePosts(response.data.data.posts);
       })
       .catch((error) => {
         console.log(error);
@@ -204,7 +204,7 @@ function App() {
   useEffect(() => {
     getMyInfo();
     getMyPost();
-    getExplorePost();
+    getExplorePosts();
     getFollowingPost();
     getFollowingList();
     getFollowersList();
@@ -235,7 +235,7 @@ function App() {
           <Row> <p>Following</p> <h2>{myInfo.totalFollowing}</h2></Row>
           <Row> <p>Followers</p> <h2>{myInfo.totalFollowers}</h2></Row>
         </Col>
-        <Button variant="primary" onClick={() => window.location.assign("/profile")}>View Profile</Button>
+            <Button variant="primary" onClick={() => window.location.assign(`/profile?userId=${myInfo.id}`)}>View Profile</Button>
       </Row>) 
       : 
       (<Row id='ProfileBadge'>
@@ -278,7 +278,7 @@ function App() {
               isLike={post.isLike}
             />
           ))} */}
-          {followingPost.map(post => (
+          {explorePosts.map(post => (
             <Card style={{ width: '100%' }} id='PostCard' key={post.i}>
               <Col id='UserPost' onClick={() => window.location.assign("/profile")}>
                 <Col id='UserName' >

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useState, useEffect} from 'react';
 import {Container,  Row, Col, Button, Nav, Tabs, Tab} from 'react-bootstrap';
 import AvatarImage from '../assets/PlaceHolder/100.png';
 import NavBar from '../Components/NavBar';
@@ -21,6 +22,7 @@ function ProfilePage() {
   const myKeysValues = window.location.search;
   const urlParams = new URLSearchParams(myKeysValues);
   const userId = urlParams.get('userId');
+  console.log(urlParams)
 
 
   // Get From Local Storage
@@ -59,8 +61,9 @@ function ProfilePage() {
       },
     })
       .then((response) => {
+        console.log(response.data.data)
         setIsLoading(false);
-        setUserPost(response.data.data.users)
+        setUserPost(response.data.data.posts)
       })
       .catch((error) => {
         console.log(error);
@@ -154,7 +157,7 @@ function ProfilePage() {
     getUserFollowing();
     getUserFollowsers();
     getUserPost();
-  }, [isLoading, postId]);
+  }, [isLoading]);
 
 
   return (
@@ -197,18 +200,15 @@ function ProfilePage() {
               {/* Tab Post */}
               <Tab eventKey="tab-1" title="Post">
                 <Row className='Content d-flex row PhotoGrid'>
-                  <Col xs={12} sm={6} md={6} lg={4} xl={4} xxl={3} className='PhotoGridItem'>
-                  <PostCardSmall/>
-                  </Col>
-                  <Col xs={12} sm={6} md={6} lg={4} xl={4} xxl={3} className='PhotoGridItem'>
-                  <PostCardSmall/>
-                  </Col>
-                  <Col xs={12} sm={6} md={6} lg={4} xl={4} xxl={3} className='PhotoGridItem'>
-                  <PostCardSmall/>
-                  </Col>
-                  <Col xs={12} sm={6} md={6} lg={4} xl={4} xxl={3} className='PhotoGridItem'>
-                  <PostCardSmall/>
-                  </Col>
+                    {userPost.map(post => (
+                   <Col key={post.id} xs={12} sm={6} md={6} lg={4} xl={4} xxl={3} className='PhotoGridItem'>
+                    <PostCardSmall
+                        imageUrl={post.imageUrl}
+                        updatedAt={post.updatedAt}
+                    />
+                  </Col>   
+                    ))}
+                  
                 </Row>
               </Tab>
 

@@ -8,6 +8,7 @@ import NavBar from "../Components/NavBar";
 
 const UploadPost = () => {
   const jwtToken = localStorage.getItem("token");
+  const myId = localStorage.getItem("id");
   const formErrorStyle = { color: "red", fontSize: "12px", padding: "0", margin: "0" };
 
   // Upload Post Formik
@@ -35,7 +36,7 @@ const UploadPost = () => {
       })
         .then(() => {
           alert("Your food has been successfully added!");
-          window.location.assign(`/profile?userId=${comment.user.id}`);
+          window.location.assign(`/profile?userId=${myId}`);
         })
         .catch((error) => {
           alert("Something wrong happened!");
