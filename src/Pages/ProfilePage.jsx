@@ -201,14 +201,14 @@ function ProfilePage() {
               <Tab eventKey="tab-1" title="Post">
                 <Row className='Content d-flex row PhotoGrid'>
                     {userPost.map(post => (
-                   <Col key={post.id} xs={12} sm={6} md={6} lg={4} xl={4} xxl={3} className='PhotoGridItem'>
-                    <PostCardSmall
-                        imageUrl={post.imageUrl}
-                        updatedAt={post.updatedAt}
-                    />
-                  </Col>   
+                      <Col key={post.id} xs={12} sm={6} md={6} lg={4} xl={4} xxl={4} className='PhotoGridItem'  >
+                        <PostCardSmall
+                            imageUrl={post.imageUrl}
+                            updatedAt={post.updatedAt}
+                            style={{ height: "100%", objectFit: "cover" }}
+                        />
+                      </Col>   
                     ))}
-                  
                 </Row>
               </Tab>
 

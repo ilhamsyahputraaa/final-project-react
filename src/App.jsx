@@ -278,7 +278,7 @@ function App() {
               isLike={post.isLike}
             />
           ))} */}
-          {explorePosts.map(post => (
+          {followingPost.map(post => (
             <Card style={{ width: '100%' }} id='PostCard' key={post.i}>
               <Col id='UserPost' onClick={() => window.location.assign("/profile")}>
                 <Col id='UserName' >
@@ -312,17 +312,33 @@ function App() {
         ) : 
         (
         <div>
-          {/* {explorePosts.map(posts=>(
-            <PostCard 
-            key={posts.id}
-            username={posts.user.username}
-            avatar={posts.user.profilePictureUrl}
-            postImage={posts.imageUrl}
-            likes={posts.totalLikes}
-            lastUpdate={posts.updatedAt}
-            caption={posts.caption}
-            postId={posts.id}
-            />
+          {/* {explorePosts.length > 0 && explorePosts.map((posts=>(
+            <Card style={{ width: '100%' }} id='PostCard' key={post.i}>
+              <Col id='UserPost' onClick={() => window.location.assign("/profile")}>
+                <Col id='UserName' >
+                  <div id='AvatarImage'><img src={post.user.profilePictureUrl} alt="" className='AvatarPost' /></div>
+                  {post.user.username}
+                </Col>
+              </Col>
+              <Card.Img variant="top" src={post.imageUrl} onClick={() => window.location.assign(`/detail?postId=${post.id}`)} />
+              <Card.Body className='d-flex row gap-3'>
+                <Col id='ActionButtonPost' >
+                  <FontAwesomeIcon icon={faHeart}
+                    style={!post.isLike ? { color: "grey" } : { color: "red" }}
+                    onClick={() => { post.isLike ? handleUnlikeButton(post) : handleLikeButton(post); }} />
+
+                  <div className='Likes'>{post.totalLikes} Likes</div>
+                </Col>
+                <Card.Text >Last updated {post.updatedAt}</Card.Text>
+                <Card.Text>
+                  <span><h6>{post.user.username}</h6></span><span><p>{post.caption}</p></span>
+
+                </Card.Text>
+                <Col>
+                  <Button variant="primary" href={`/detail?postId=${post.id}`}>View Post</Button>
+                </Col>
+              </Card.Body>
+            </Card>
           ))} */}
         </div>
         )}
