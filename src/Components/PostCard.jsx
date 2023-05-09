@@ -18,7 +18,10 @@ function PostCard(props) {
       <Card.Img variant="top" src={props.postImage} onClick={() => window.location.assign(`/detail?postId=${props.postId}`)}/>
       <Card.Body className='d-flex row gap-3'>
         <Col id='ActionButtonPost' >
-        <FontAwesomeIcon icon={faHeart} onClick={props.handleLike} />
+          <FontAwesomeIcon icon={faHeart}
+            style={!props.isLike ? { color: "grey" } : { color: "red" }}
+            onClick={() => { props.isLike ? props.handleUnlike() : props.handleLike(); }} />
+        
         <div className='Likes'>{props.likes} Likes</div>
         </Col>
         <Card.Text >Last updated {props.lastUpdate}</Card.Text>

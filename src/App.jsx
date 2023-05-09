@@ -4,12 +4,16 @@ import axios from 'axios'
 import NavBar from './Components/NavBar';
 import PostCard from './Components/PostCard';
 import AvatarImage from './assets/PlaceHolder/100.png';
-import { Col, Row, Button, Container } from 'react-bootstrap';
+import { Card, Col, Row, Button, Container } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart, faComment } from '@fortawesome/free-solid-svg-icons'
 
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
+  const [toggleLike, setToggleLike] = useState(false);
+
 
   const [myInfo, setMyInfo] = useState ({});
   const [myPost, setMyPost] = useState ({});
@@ -27,6 +31,49 @@ function App() {
     localStorage.getItem("id") ? setIsLogin(true) : setIsLogin(false);
   };
 
+  // Handle Like
+  const handleLikeButton = (post) => {
+    const postId = post.id
+    axios({
+      method: "post",
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/like`,
+      headers: {
+        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+        Authorization: `Bearer ${jwtToken}`,
+      },
+      data: {
+        postId: postId,
+      },
+    })
+      .then(() => {
+        setToggleLike((prevState) => !prevState);
+      })
+      .catch(() => {
+        alert("You have to login to use this feature!");
+      });
+  };
+
+  // Handle unlike
+  const handleUnlikeButton = (post) => {
+    const postId = post.id
+    axios({
+      method: "post",
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/unlike`,
+      headers: {
+        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+        Authorization: `Bearer ${jwtToken}`,
+      },
+      data: {
+        postId: postId,
+      },
+    })
+      .then(() => {
+        setToggleLike((prevState) => !prevState);
+      })
+      .catch(() => {
+        alert("You have to login to use this feature!");
+      });
+  };
 
   // Get My Info
   const getMyInfo = () => {
@@ -162,7 +209,7 @@ function App() {
     getFollowingList();
     getFollowersList();
     handleIsLogin();
-  }, [isLoading, isLogin]);
+  }, [isLoading, isLogin, toggleLike]);
 
   return (
     <>
@@ -216,7 +263,7 @@ function App() {
         </Container>
 
         <div className='p-0 d-flex row gap-3 me-0'>
-          {followingPost.map(post => (
+          {/* {followingPost.map(post => (
             <PostCard 
               key={post.id}
               avatar={post.user.profilePictureUrl}
@@ -226,7 +273,38 @@ function App() {
               lastUpdate={post.updatedAt}
               caption={post.caption}
               postId={post.id}
+              handleLike={() => handleLikeButton(post.postId)}
+              handleUnlike={() => handleUnlikeButton(post.postId)}
+              isLike={post.isLike}
             />
+          ))} */}
+          {followingPost.map(post => (
+            <Card style={{ width: '100%' }} id='PostCard' key={post.i}>
+              <Col id='UserPost' onClick={() => window.location.assign("/profile")}>
+                <Col id='UserName' >
+                  <div id='AvatarImage'><img src={post.user.profilePictureUrl} alt="" className='AvatarPost' /></div>
+                  {post.user.username}
+                </Col>
+              </Col>
+              <Card.Img variant="top" src={post.imageUrl} onClick={() => window.location.assign(`/detail?postId=${post.id}`)} />
+              <Card.Body className='d-flex row gap-3'>
+                <Col id='ActionButtonPost' >
+                  <FontAwesomeIcon icon={faHeart}
+                    style={!post.isLike ? { color: "grey" } : { color: "red" }}
+                    onClick={() => { post.isLike ? handleUnlikeButton(post) : handleLikeButton(post); }} />
+
+                  <div className='Likes'>{post.totalLikes} Likes</div>
+                </Col>
+                <Card.Text >Last updated {post.updatedAt}</Card.Text>
+                <Card.Text>
+                  <span><h6>{post.user.username}</h6></span><span><p>{post.caption}</p></span>
+
+                </Card.Text>
+                <Col>
+                  <Button variant="primary" href={`/detail?postId=${post.id}`}>View Post</Button>
+                </Col>
+              </Card.Body>
+            </Card>
           ))}
         </div>          
         </div>
