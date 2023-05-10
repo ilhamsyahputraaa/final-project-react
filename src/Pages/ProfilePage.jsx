@@ -25,7 +25,7 @@ function ProfilePage() {
   // Get UserID
   const myKeysValues = window.location.search;
   const urlParams = new URLSearchParams(myKeysValues);
-  const userId = urlParams.get('userId');
+  const userProfileId = urlParams.get('userId');
 
 
 
@@ -36,7 +36,7 @@ function ProfilePage() {
   const getUserInfo = () => {
     axios({
       method: "get",
-      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/user/${userId}`,
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/user/${userProfileId}`,
       headers: {
         apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
         Authorization: `Bearer ${jwtToken}`,
@@ -59,7 +59,7 @@ function ProfilePage() {
   const getUserPost = () => {
     axios({
       method: "get",
-      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/users-post/${userId}?size=10&page=1`,
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/users-post/${userProfileId}?size=10&page=1`,
       headers: {
         apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
         Authorization: `Bearer ${jwtToken}`,
@@ -77,11 +77,13 @@ function ProfilePage() {
   };
 
   // does this user follow me?
-  const isFollowed = (userId, myFollowing) => {
-    return myFollowing.some((following) => following.id === userId);
+  const isFollowed = (userProfileId, myFollowing) => {
+    return myFollowing.some((following) => following.id === userProfileId);
   };
-  const isUserFollowed = isFollowed(userId, myFollowing);
+  const isUserFollowed = isFollowed(userProfileId, myFollowing);
   console.log(isUserFollowed);
+
+
   
 
   // Get my Following
@@ -109,7 +111,7 @@ function ProfilePage() {
   const getUserFollowsers = () => {
     axios({
       method: "get",
-      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/followers/${userId}?size=10&page=1`,
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/followers/${userProfileId}?size=10&page=1`,
       headers: {
         apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
         Authorization: `Bearer ${jwtToken}`,
@@ -128,7 +130,7 @@ function ProfilePage() {
   const getUserFollowing = () => {
     axios({
       method: "get",
-      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/following/${userId}?size=10&page=1`,
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/following/${userProfileId}?size=10&page=1`,
       headers: {
         apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
         Authorization: `Bearer ${jwtToken}`,
@@ -144,44 +146,43 @@ function ProfilePage() {
   };
 
   // Handle follow
-  const handleFollow = (userId) => {
-
-    axios({
-      method: "post",
-      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/follow/`,
-      headers: {
-        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
-        Authorization: `Bearer ${jwtToken}`,
-      },
-      data: {
-        userId: userId,
-      }
-    })
-      .then(() => {
-        isUserFollowed((prevState) => !prevState)
-      })
-      .catch((error) => {
-        console.log(error);
+  const handleFollow = async () => {
+    try {
+      await axios({
+        method: "post",
+        url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/follow`,
+        headers: {
+          apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+          Authorization: `Bearer ${jwtToken}`,
+        },
+        data: {
+          userIdFollow: `${userProfileId}`,
+        },
       });
+      // setToggleFollow(true);
+      
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  // Handle unfollow
-  const handleUnFollow = () => {
-    axios({
-      method: "post",
-      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/unfollow/${userId}`,
-      headers: {
-        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
-        Authorization: `Bearer ${jwtToken}`,
-      }
-    })
-      .then(() => {
-        // isUserFollowed((prevState) => !prevState)
-        window.location.assign("reload");
-      })
-      .catch((error) => {
-        console.log(error);
+  const handleUnFollow = async () => {
+    try {
+      await axios({
+        method: "delete",
+        url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/unfollow/${userProfileId}`,
+        headers: {
+          apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+          Authorization: `Bearer ${jwtToken}`,
+        }
       });
+      // setToggleFollow(false);
+      
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -208,13 +209,14 @@ function ProfilePage() {
                 </Row> 
                 
               </Col>
+              
               {userInfo.id === localStorage.getItem("id") ?
               (<Button variant="primary">Edit Profile</Button>) :
-              (isUserFollowed ? 
+              (isUserFollowed? 
               (<Button variant="secondary" onClick={handleUnFollow}>Unfollow</Button>) :
               (<Button variant="primary" onClick={handleFollow}>Follow</Button>))}
               
-            </Col>
+              </Col>
             
 
             <Col className='d-flex UserName'> <p>{userInfo.bio}</p> </Col>
@@ -249,76 +251,26 @@ function ProfilePage() {
                 </Row>
               </Tab>
 
-              {/* Tab Liked */}
-              <Tab eventKey="tab-2" title="Liked">
-              <Row className='Content d-flex row PhotoGrid'>
-                  <Col xs={12} sm={6} md={6} lg={4} xl={4} xxl={3} className='PhotoGridItem'>
-                  <PostCardSmall/>
-                  </Col>
-                  <Col xs={12} sm={6} md={6} lg={4} xl={4} xxl={3} className='PhotoGridItem'>
-                  <PostCardSmall/>
-                  </Col>
-                  <Col xs={12} sm={6} md={6} lg={4} xl={4} xxl={3} className='PhotoGridItem'>
-                  <PostCardSmall/>
-                  </Col>
-                  <Col xs={12} sm={6} md={6} lg={4} xl={4} xxl={3} className='PhotoGridItem'>
-                  <PostCardSmall/>
-                  </Col>
-                </Row>
-              </Tab>
 
               {/* Tab Following */}
               <Tab eventKey="tab-3" title="Following">
               <Container className='Content '>
 
-                {/* Following Item */}
+                {userFollowing.map(following=> (
                 <div className='d-flex FollowingAcc mb-3'>
                   <div className='d-flex gap-2 RecAcc'>
-                    <img src={AvatarImage} alt="" className='AvatarImage' />
+                    <img src={following.profilePictureUrl} alt="" className='AvatarImage' />
                       <Row>
-                        <h6>ilhamsyahzp</h6> 
-                        <p>Ilhamsyah Putra</p>
+                        <h6>{following.username}</h6> 
+                        <p>{following.email}</p>
                       </Row> 
                   </div >
-                  <div className=' RecAcc'><Button variant="secondary">Unfollow</Button> </div>
-                </div>
+                  <div className=' RecAcc'>
+                    <Button variant="primary" onClick={() => window.location.assign(`/profile?userId=${following.id}`)}>View Profile</Button> 
+                    </div>
+                </div>                  
+                ))}
 
-                
-                {/* Following Item */}
-                <div className='d-flex FollowingAcc mb-3'>
-                  <div className='d-flex gap-2 RecAcc'>
-                    <img src={AvatarImage} alt="" className='AvatarImage' />
-                      <Row>
-                        <h6>ilhamsyahzp</h6> 
-                        <p>Ilhamsyah Putra</p>
-                      </Row> 
-                  </div >
-                  <div className=' RecAcc'><Button variant="secondary">Unfollow</Button> </div>
-                </div>
-                
-                {/* Following Item */}
-                <div className='d-flex FollowingAcc mb-3'>
-                  <div className='d-flex gap-2 RecAcc'>
-                    <img src={AvatarImage} alt="" className='AvatarImage' />
-                      <Row>
-                        <h6>ilhamsyahzp</h6> 
-                        <p>Ilhamsyah Putra</p>
-                      </Row> 
-                  </div >
-                  <div className=' RecAcc'><Button variant="secondary">Unfollow</Button> </div>
-                </div>
-                
-                {/* Following Item */}
-                <div className='d-flex FollowingAcc mb-3'>
-                  <div className='d-flex gap-2 RecAcc'>
-                    <img src={AvatarImage} alt="" className='AvatarImage' />
-                      <Row>
-                        <h6>ilhamsyahzp</h6> 
-                        <p>Ilhamsyah Putra</p>
-                      </Row> 
-                  </div >
-                  <div className=' RecAcc'><Button variant="secondary">Unfollow</Button> </div>
-                </div>
               </Container>
               </Tab>
 
@@ -327,52 +279,21 @@ function ProfilePage() {
               <Container className='Content '>
 
                 {/* Following Item */}
+                {userFollowers.map(followers=> (
                 <div className='d-flex FollowingAcc mb-3'>
                   <div className='d-flex gap-2 RecAcc'>
-                    <img src={AvatarImage} alt="" className='AvatarImage' />
+                    <img src={followers.profilePictureUrl} alt="" className='AvatarImage' />
                       <Row>
-                        <h6>ilhamsyahzp</h6> 
-                        <p>Ilhamsyah Putra</p>
+                        <h6>{followers.username}</h6> 
+                        <p>{followers.email}</p>
                       </Row> 
                   </div >
-                  <div className=' RecAcc'><Button variant="primary">Follow</Button> </div>
-                </div>
+                  <div className=' RecAcc'>
+                    <Button variant="primary" onClick={() => window.location.assign(`/profile?userId=${followers.id}`)}>View Profile</Button> 
+                    </div>
+                </div>                  
+                ))}
 
-                {/* Following Item */}
-                <div className='d-flex FollowingAcc mb-3'>
-                  <div className='d-flex gap-2 RecAcc'>
-                    <img src={AvatarImage} alt="" className='AvatarImage' />
-                      <Row>
-                        <h6>ilhamsyahzp</h6> 
-                        <p>Ilhamsyah Putra</p>
-                      </Row> 
-                  </div >
-                  <div className=' RecAcc'><Button variant="primary">Follow</Button> </div>
-                </div>
-                
-                {/* Following Item */}
-                <div className='d-flex FollowingAcc mb-3'>
-                  <div className='d-flex gap-2 RecAcc'>
-                    <img src={AvatarImage} alt="" className='AvatarImage' />
-                      <Row>
-                        <h6>ilhamsyahzp</h6> 
-                        <p>Ilhamsyah Putra</p>
-                      </Row> 
-                  </div >
-                  <div className=' RecAcc'><Button variant="secondary">Unfollow</Button> </div>
-                </div>
-                
-                {/* Following Item */}
-                <div className='d-flex FollowingAcc mb-3'>
-                  <div className='d-flex gap-2 RecAcc'>
-                    <img src={AvatarImage} alt="" className='AvatarImage' />
-                      <Row>
-                        <h6>ilhamsyahzp</h6> 
-                        <p>Ilhamsyah Putra</p>
-                      </Row> 
-                  </div >
-                  <div className=' RecAcc'><Button variant="secondary">Unfollow</Button> </div>
-                </div>
 
               </Container>
               </Tab>
