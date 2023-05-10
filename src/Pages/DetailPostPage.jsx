@@ -5,7 +5,7 @@ import {Button, Card, Row, Col, Container, Form} from 'react-bootstrap';
 import BigImage from '../assets/PlaceHolder/1000.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSearchParams } from "react-router-dom";
-import {faHeart, faComment, faTrash } from '@fortawesome/free-solid-svg-icons'
+import {faHeart, faComment, faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
@@ -20,7 +20,6 @@ function DetailPostPage() {
   const myKeysValues = window.location.search;
   const urlParams = new URLSearchParams(myKeysValues);
   const postId = urlParams.get('postId');
-  console.log(window.location.search);
 
   const [postDetail, setPostDetail] = useState([])
   const [postUser, setPostUser] = useState([])
@@ -152,7 +151,11 @@ function DetailPostPage() {
               <Col id='UserName' onClick={() => window.location.assign(`/profile?userId=${postUser.id}`)}>
                     <div id='AvatarImage'><img src={postUser.profilePictureUrl} alt="" className='AvatarPost' /></div>{postUser.username}
             </Col>
-            {postUser.id === localStorage.getItem("id") ? (<FontAwesomeIcon icon={faTrash} onClick={() => handleDeletePost(postDetail.id)}/>) : (null)}
+            {postUser.id === localStorage.getItem("id") ? 
+            (<div className='d-flex gap-4'>
+              <FontAwesomeIcon icon={faTrash} onClick={() => handleDeletePost(postDetail.id)}/>
+              <FontAwesomeIcon icon={faPenToSquare} onClick={()=> window.location.assign(`/editpost?postId=${postId}`)}/>
+              </div>) : (null)}
             </Col>
             <Card.Img variant="top" src={postDetail.imageUrl} />
             

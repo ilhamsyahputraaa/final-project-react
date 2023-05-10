@@ -13,21 +13,24 @@ function ProfilePage() {
 
   // States
   const [userInfo, setUserInfo] = useState([]);
+  const [postCount, setPostCount] = useState("");
   const [userPost, setUserPost] = useState([]);
   const [userFollowing, setUserFollowing] = useState([]);
   const [userFollowers, setUserFollowers] = useState([]);
+  const [myFollowing, setMyFollowing] = useState([])
+
+
 
 
   // Get UserID
   const myKeysValues = window.location.search;
   const urlParams = new URLSearchParams(myKeysValues);
   const userId = urlParams.get('userId');
-  console.log(urlParams)
+
 
 
   // Get From Local Storage
   const jwtToken = localStorage.getItem("token");
-  const myId = localStorage.getItem("id");
 
   // Get User Info
   const getUserInfo = () => {
@@ -44,6 +47,8 @@ function ProfilePage() {
         // setMostFavorite(response.data.data.sort((a, b) => b.totalLikes - a.totalLikes).filter((e, i) => i < 3));
         setIsLoading(false);
         setUserInfo(response.data.data);
+        // const isFollowing = isUserFollowing(response.data.data.id);
+        // setToggleFollow(isFollowing);
       })
       .catch((error) => {
         console.log(error);
@@ -64,11 +69,41 @@ function ProfilePage() {
         console.log(response.data.data)
         setIsLoading(false);
         setUserPost(response.data.data.posts)
+        setPostCount(response.data.data)
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  // does this user follow me?
+  const isFollowed = (userId, myFollowing) => {
+    return myFollowing.some((following) => following.id === userId);
+  };
+  const isUserFollowed = isFollowed(userId, myFollowing);
+  console.log(isUserFollowed);
+  
+
+  // Get my Following
+  const getMyFollowing = () => {
+    axios({
+      method: "get",
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/my-following?size=10&page=1`,
+      headers: {
+        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    })
+      .then((response) => {
+        setIsLoading(false);
+        setMyFollowing(response.data.data.users)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+
 
   // Get Followers by Id
   const getUserFollowsers = () => {
@@ -109,11 +144,11 @@ function ProfilePage() {
   };
 
   // Handle follow
-  const handleFollow = (follower) => {
-    const userId = follower.id
+  const handleFollow = (userId) => {
+
     axios({
       method: "post",
-      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/follow`,
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/follow/`,
       headers: {
         apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
         Authorization: `Bearer ${jwtToken}`,
@@ -123,7 +158,7 @@ function ProfilePage() {
       }
     })
       .then(() => {
-        setToggleFollow((prevState) => !prevState)
+        isUserFollowed((prevState) => !prevState)
       })
       .catch((error) => {
         console.log(error);
@@ -131,21 +166,18 @@ function ProfilePage() {
   };
 
   // Handle unfollow
-  const handleUnFollow = (follower) => {
-    const userId = follower.id
+  const handleUnFollow = () => {
     axios({
       method: "post",
-      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/unfollow`,
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/unfollow/${userId}`,
       headers: {
         apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
         Authorization: `Bearer ${jwtToken}`,
-      },
-      data: {
-        userId: userId,
       }
     })
       .then(() => {
-        setToggleFollow((prevState) => !prevState)
+        // isUserFollowed((prevState) => !prevState)
+        window.location.assign("reload");
       })
       .catch((error) => {
         console.log(error);
@@ -157,6 +189,7 @@ function ProfilePage() {
     getUserFollowing();
     getUserFollowsers();
     getUserPost();
+    getMyFollowing();
   }, [isLoading]);
 
 
@@ -168,28 +201,32 @@ function ProfilePage() {
         <Container id='ProfileBadge' className='d-flex row'>
             <Col id='UserPost'>
               <Col className='d-flex UserName'>
-                <img src={AvatarImage} alt="" className='AvatarImage'/>  
+                <img src={userInfo.profilePictureUrl} alt="" className='AvatarImage'/>  
                 <Row>
-                  <h4>ilhamsyahzp</h4> 
-                  <p>Ilhamsyah Putra</p>
+                  <h4>{userInfo.username}</h4> 
+                  <p>{userInfo.name}</p>
                 </Row> 
                 
               </Col>
-              <Button variant="primary">Edit Profile</Button>{' '}
+              {userInfo.id === localStorage.getItem("id") ?
+              (<Button variant="primary">Edit Profile</Button>) :
+              (isUserFollowed ? 
+              (<Button variant="secondary" onClick={handleUnFollow}>Unfollow</Button>) :
+              (<Button variant="primary" onClick={handleFollow}>Follow</Button>))}
+              
             </Col>
             
 
-            <Col className='d-flex UserName'> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p> </Col>
+            <Col className='d-flex UserName'> <p>{userInfo.bio}</p> </Col>
             <Col className=' d-flex gap-4'>
-              <Col className='d-flex UserName'><h6>Website</h6> <p>IlhamsyahPutra.com</p> </Col>
-              <Col className='d-flex UserName'><h6>Phone Number</h6> <p>Ilhamsyah Putra</p> </Col>
+              <Col className='d-flex UserName'><h6>Website</h6> <p>{userInfo.website}</p> </Col>
+              <Col className='d-flex UserName'><h6>Phone Number</h6> <p>{userInfo.phoneNumber}</p> </Col>
             </Col>
 
             <Col className='d-flex mt-4 gap-5 UserNumber'>
-              <Row className='col-3'> <p>Photos</p> <h2>3</h2></Row>
-              <Row className='col-3'> <p>Liked</p> <h2>42</h2></Row>
-              <Row className='col-3'> <p>Following</p> <h2>12</h2></Row>
-              <Row className='col-3'> <p>Followers</p> <h2>42</h2></Row>
+              <Row className='col-3'> <p>Photos</p> <h2>{postCount.totalItems}</h2></Row>
+              <Row className='col-3'> <p>Following</p> <h2>{userInfo.totalFollowing}</h2></Row>
+              <Row className='col-3'> <p>Followers</p> <h2>{userInfo.totalFollowers}</h2></Row>
             </Col>
 
         </Container>

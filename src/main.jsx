@@ -14,6 +14,7 @@ import EditProfile from "./Pages/EditProfile";
 import DetailPostPage from "./Pages/DetailPostPage";
 import UploadPost from "./Pages/UploadPost";
 import ExplorePage from "./Pages/ExplorePage";
+import EditPost from "./Pages/EditPost";
 
 
 const noAuth = ["/", "/login", "/register", "/detail"];
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
   },{
     path: "/eerror", // Need to Login
     element: auth.noAuth(PageError),
+    errorElement: <PageError />,
+  },{
+    path: "/editpost", // Need to Login
+    element: auth.noAuth(EditPost),
     errorElement: <PageError />,
   },
 ]);
