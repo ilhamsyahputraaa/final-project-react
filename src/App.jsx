@@ -2,8 +2,6 @@ import { useState, useEffect, useCallback } from 'react'
 import './App.css'
 import axios from 'axios'
 import NavBar from './Components/NavBar';
-import PostCard from './Components/PostCard';
-import AvatarImage from './assets/PlaceHolder/100.png';
 import { Card, Col, Row, Button, Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faComment } from '@fortawesome/free-solid-svg-icons'
@@ -131,7 +129,9 @@ function App() {
         // console.log(response.data.data.posts);
         // setMostFavorite(response.data.data.sort((a, b) => b.totalLikes - a.totalLikes).filter((e, i) => i < 3));
         setIsLoading(false);
-        setFollowingPost(response.data.data.posts);
+        setFollowingPost(response.data.data.posts.sort((a, b) => {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        }));
       })
       .catch((error) => {
         console.log(error);

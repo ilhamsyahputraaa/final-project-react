@@ -211,7 +211,7 @@ function ProfilePage() {
               </Col>
               
               {userInfo.id === localStorage.getItem("id") ?
-              (<Button variant="primary">Edit Profile</Button>) :
+              (<Button variant="primary" onClick={() => window.location.assign(`/editprofile`)}>Edit Profile</Button>) :
               (isUserFollowed? 
               (<Button variant="secondary" onClick={handleUnFollow}>Unfollow</Button>) :
               (<Button variant="primary" onClick={handleFollow}>Follow</Button>))}
@@ -260,7 +260,7 @@ function ProfilePage() {
                 {userFollowing.map(following=> (
                 <div className='d-flex FollowingAcc mb-3'>
                   <div className='d-flex gap-2 RecAcc'>
-                    <img src={following.profilePictureUrl} alt="" className='AvatarImage' />
+                    <img src={following.profilePictureUrl} alt="" className='AvatarImage' style={{objectFit: "cover", aspectRatio: "1/1" }} />
                       <Row>
                         <h6>{following.username}</h6> 
                         <p>{following.email}</p>
@@ -279,21 +279,21 @@ function ProfilePage() {
               <Tab eventKey="tab-4" title="Followers">
               <Container className='Content '>
 
-                {/* Following Item */}
-                {userFollowers.map(followers=> (
-                <div className='d-flex FollowingAcc mb-3'>
-                  <div className='d-flex gap-2 RecAcc'>
-                    <img src={followers.profilePictureUrl} alt="" className='AvatarImage' />
-                      <Row>
-                        <h6>{followers.username}</h6> 
-                        <p>{followers.email}</p>
-                      </Row> 
-                  </div >
-                  <div className=' RecAcc'>
-                    <Button variant="primary" onClick={() => window.location.assign(`/profile?userId=${followers.id}`)}>View Profile</Button> 
-                    </div>
-                </div>                  
-                ))}
+              {/* Following Item */}
+              {userFollowers.map(followers=> (
+              <div className='d-flex FollowingAcc mb-3'>
+                <div className='d-flex gap-2 RecAcc'>
+                  <img src={followers.profilePictureUrl} alt="" className='AvatarImage' style={{objectFit: "cover", aspectRatio: "1/1" }}/>
+                    <Row>
+                      <h6>{followers.username}</h6> 
+                      <p>{followers.email}</p>
+                    </Row> 
+                </div >
+                <div className=' RecAcc'>
+                  <Button variant="primary" onClick={() => window.location.assign(`/profile?userId=${followers.id}`)}>View Profile</Button> 
+                  </div>
+              </div>                  
+              ))}
 
 
               </Container>

@@ -88,6 +88,10 @@ const router = createBrowserRouter([
     path: "/editpost", // Need to Login
     element: auth.noAuth(EditPost),
     errorElement: <PageError />,
+  },{
+    path: "/editprofile", // Need to Login
+    element: auth.noAuth(EditProfile),
+    errorElement: <PageError />,
   },
 ]);
 const root = ReactDOM.createRoot(document.getElementById("root"));

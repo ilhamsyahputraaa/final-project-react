@@ -26,6 +26,8 @@ function DetailPostPage() {
   const [commentList, setCommentList] = useState([])
   const jwtToken = localStorage.getItem("token");
 
+  const [totalLikes, setTotalLikes] = useState(0);
+
     // Get food and food review by ID
     const getPostDetail = useCallback(() => {
     axios({
@@ -125,7 +127,33 @@ function DetailPostPage() {
           console.log(error);
           });
       }
-  };
+    };
+
+    // Get All Post
+    const getLikesOfPost = () => {
+      axios({
+        method: "get",
+        url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/explore-post?size=100&page=1`,
+        headers: {
+          apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+        .then((response) => {
+          console.log(response.data.data.posts);
+          const post = response.data.data.posts.find((post) => post.id === postId);
+          if (post) {
+            setTotalLikes(post)
+            console.log(`Total likes of post ${postId}: ${post.totalLikes}`);
+          } else {
+            console.log(`Post with postId ${postId} not found`);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    
 
 
 
@@ -133,6 +161,7 @@ function DetailPostPage() {
 
     useEffect(() => {
         getPostDetail();
+        getLikesOfPost();
     }, [isLoading, postId]);
 
   
@@ -168,7 +197,7 @@ function DetailPostPage() {
             <Row>
                 <Col id='ActionButtonPost'>
                     <FontAwesomeIcon icon={faHeart} />
-                    <Col className='Likes'>234 Likes</Col>
+                    <Col className='Likes'>{totalLikes.totalLikes} total Likes disini</Col>
                 </Col>
             </Row>
             <Card.Text>
@@ -209,7 +238,7 @@ function DetailPostPage() {
                 </span>
                 {comment.user.id === localStorage.getItem("id") ? (<FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteComment(comment.id)}/>) : (null)}
             </div>                
-            ))};
+            ))}
           </Row>
         </Container>
       </div>
