@@ -242,8 +242,9 @@ function ProfilePage() {
                     {userPost.map(post => (
                       <Col key={post.id} xs={12} sm={6} md={6} lg={4} xl={4} xxl={4} className='PhotoGridItem'  >
                         <PostCardSmall
-                            imageUrl={post.imageUrl}
-                            updatedAt={post.updatedAt}
+                          imageUrl={post.imageUrl}
+                          updatedAt={post.updatedAt}
+                          postId={post.id}
                             style={{ height: "100%", objectFit: "cover" }}
                         />
                       </Col>   

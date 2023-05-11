@@ -147,15 +147,15 @@ function DetailPostPage() {
       {/* Content */}
       <div className='Content d-flex row gap-5 col-5'>
         <Card style={{ width: '100%' }} id='PostCard'>
-            <Col id='UserPost'>
-              <Col id='UserName' onClick={() => window.location.assign(`/profile?userId=${postUser.id}`)}>
-                    <div id='AvatarImage'><img src={postUser.profilePictureUrl} alt="" className='AvatarPost' /></div>{postUser.username}
+            <Col id='UserPost' >
+              <Col id='UserName' >
+                    <div id='AvatarImage'><img src={postUser.profilePictureUrl} alt="" className='AvatarPost' onClick={() => window.location.assign(`/profile?userId=${postDetail.userId}`)}/></div>{postUser.username}
             </Col>
             {postUser.id === localStorage.getItem("id") ? 
             (<div className='d-flex gap-4'>
               <FontAwesomeIcon icon={faTrash} onClick={() => handleDeletePost(postDetail.id)}/>
               <FontAwesomeIcon icon={faPenToSquare} onClick={()=> window.location.assign(`/editpost?postId=${postId}`)}/>
-              </div>) : (null)}
+                </div>) : (<Button variant='primary' onClick={() => window.location.assign(`/profile?userId=${postDetail.userId}`)} >View Profile</Button>)}
             </Col>
             <Card.Img variant="top" src={postDetail.imageUrl} />
             
