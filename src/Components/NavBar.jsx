@@ -15,7 +15,7 @@ function NavBar() {
     localStorage.getItem("id") ? setIsLogin(true) : setIsLogin(false);
   };
 
-  //Get My Followers List
+  // Handle Logout
   const handleLogout = () => {
     axios({
       method: "get",
@@ -64,10 +64,10 @@ function NavBar() {
     <Navbar bg="light" expand="lg" id='NavBar'>
       <Container fluid  id='NavMenu' >
         {/* Brand */}
-        <Navbar.Brand href="/">Photo Share</Navbar.Brand>
+        <Navbar.Brand href="/" className='col-3 NavLogo'>Photo Share</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         {/* BurgerMenu */}
-        <Navbar.Collapse id="navbarScroll" >
+        <Navbar.Collapse id="navbarScroll" className='col-6 NavMenus'>
           {/* Menu */}
           <Nav className='d-flex gap-3'>
               <Nav.Link href="/">Home</Nav.Link>
@@ -75,17 +75,31 @@ function NavBar() {
               <Nav.Link href="#action1">About</Nav.Link>
               <Button variant="primary" href='/upload'>Upload</Button>
           </Nav>
-          
+
+          {/* DropDown */}
+          <div className='col-3 NavProfile NavProfileMobile'>
+            {isLogin ?
+              (<NavDropdown title={localStorage.getItem("username")} id="navbarScrollingDropdown" >
+                <NavDropdown.Item href="/profile">View Profile</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={handleLogout}>Log Out</NavDropdown.Item>
+              </NavDropdown>) :
+              (<Button variant="primary" onClick={() => window.location.assign("/login")}>Log In</Button>)}
+          </div>
+       
         </Navbar.Collapse>
 
         {/* DropDown */}
+        <div className='col-3 NavProfile NavProfileDesktop'>
         {isLogin ? 
-        (<NavDropdown title={localStorage.getItem("username")} id="navbarScrollingDropdown">
+          (<NavDropdown title={localStorage.getItem("username")} id="navbarScrollingDropdown" >
           <NavDropdown.Item href="/profile">View Profile</NavDropdown.Item>
           <NavDropdown.Divider />
           <NavDropdown.Item onClick={handleLogout}>Log Out</NavDropdown.Item>
         </NavDropdown>): 
-        (<Button variant="primary" onClick={() => window.location.assign("/login")}>Log In</Button> )}
+        (<Button variant="primary" onClick={() => window.location.assign("/login")}>Log In</Button> )}  
+        </div>
+ 
 
       </Container>
     </Navbar>

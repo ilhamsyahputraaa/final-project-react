@@ -1,13 +1,39 @@
 #NavBar{
     box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.11);
+    width: 100%;
 }
 
 #NavMenu{
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    gap: 30rem;
-    padding: 0rem 64px;
+    justify-content: center;
+    padding: 1rem 64px;
+}
+
+.NavLogo{
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+
+}
+
+
+
+.NavMenus{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.NavProfile{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    
+}
+.NavProfileMobile{
+    display: none;
 }
 
 #PostCard{
@@ -166,4 +192,35 @@ p{
 .PhotoGrid{
     align-items: start;
     justify-content: start;
+}
+
+@media screen and (max-width: 767px) {
+    .NavProfileDesktop{
+        display: none;
+    }
+    .NavProfileMobile{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    #NavMenu{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1rem;
+}
+}
+
+@media screen and (max-width: 993px) {
+    .NavProfileDesktop{
+        display: none;
+    }
+
+#NavMenu{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1rem;
+}
 }
