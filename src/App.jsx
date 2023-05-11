@@ -258,7 +258,10 @@ function App() {
         <Container fluid id='FollowingList' className='d-flex  row'>
           <h6>My Following</h6>
           {followingList.map(following => (
-          <Row className='d-flex FollowingUser col-2' onClick={() => window.location.assign(`/profile?userId=${following.id}`)}><img src={following.profilePictureUrl} alt="" className='AvatarImage' /> <p>{following.username}</p> </Row>
+            <Row className='d-flex FollowingUser col-2' onClick={() => window.location.assign(`/profile?userId=${following.id}`)}>
+              <div>
+              <img src={following.profilePictureUrl} alt="" className='AvatarImage' style={{ width: "100%", height: "100%", objectFit: "cover", aspectRatio: "1/1" }} /> 
+              </div><p>{following.username}</p> </Row>
           ))}
         </Container>
 
@@ -281,8 +284,8 @@ function App() {
           {followingPost.map(post => (
             <Card style={{ width: '100%' }} id='PostCard' key={post.i}>
               <Col id='UserPost' onClick={() => window.location.assign("/profile")}>
-                <Col id='UserName' >
-                  <div id='AvatarImage'><img src={post.user.profilePictureUrl} alt="" className='AvatarPost' /></div>
+                <Col id='UserName' className='d-flex gap-2'>
+                  <div id='AvatarImage'><img src={post.user.profilePictureUrl} alt="" className='AvatarPost' style={{ objectFit: "cover", aspectRatio: "1/1" }} /></div>
                   {post.user.username}
                 </Col>
               </Col>
@@ -360,7 +363,10 @@ function App() {
             {followerList.map(follower => (
             <div className='d-flex ReccomendationAccount'>
               <div className='d-flex gap-2 RecAcc' onClick={() => window.location.assign(`/profile?userId=${follower.id}`)}>  
-                <img src={follower.profilePictureUrl} alt="" className='AvatarImage' />
+                  <div>
+                    <img src={follower.profilePictureUrl} alt="" className='AvatarImage' style={{objectFit: "cover", aspectRatio: "1/1" }} />
+                  </div>
+                  
                   <Row>
                     <h6>{follower.username}</h6> 
                     <p>{follower.email}</p>
