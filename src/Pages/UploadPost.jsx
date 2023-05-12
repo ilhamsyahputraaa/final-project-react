@@ -8,41 +8,43 @@ import NavBar from "../Components/NavBar";
 const UploadPost = () => {
   const jwtToken = localStorage.getItem("token");
   const myId = localStorage.getItem("id");
-  const [imageUrl , setImageUrl] = useState(null);
+
+  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
+  const [preview, setImagePreview] = useState(null);
   const formErrorStyle = { color: "red", fontSize: "12px", padding: "0", margin: "0" };
   const [isLoading, setIsLoading] = useState(true);
 
   // Create Post Formik
   const formik = useFormik({
     initialValues: {
-      caption: `${imageUrl ? (imageUrl) : ("")}`,
+      caption: "",
       imageUrl: "",
     },
     validationSchema: Yup.object({
       caption: Yup.string().required("Required"),
       imageUrl: Yup.string().url("Invalid URL").required("Required"),
     }),
-    onSubmit: (values) => {
-      axios({
-        method: "post",
-        url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/create-post`,
-        headers: {
-          apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
-          Authorization: `Bearer ${jwtToken}`,
-        },
-        data: {
-          caption: values.caption,
-          imageUrl: imageUrl || values.imageUrl,
-        },
-      })
-        .then(() => {
-          alert("Your food has been successfully added!");
-          window.location.assign(`/profile?userId=${myId}`);
-        })
-        .catch((error) => {
-          alert("Something wrong happened!");
-          console.log(error);
+    onSubmit: async (values) => {
+      try {
+        await axios({
+          method: "post",
+          url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/create-post`,
+          headers: {
+            apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          data: {
+            caption: values.caption,
+            imageUrl: imageUrl,
+          },
         });
+        alert("Your photo has been successfully added!");
+        window.location.assign(`/profile?userId=${myId}`);
+      } catch (error) {
+        alert("Something wrong happened!");
+        console.log(error);
+      }
     },
   });
 
@@ -62,34 +64,62 @@ const UploadPost = () => {
       .required("Required"),
   });
 
+  // On Image Upload
+  const onUpload = (event) => {
+    setImage(event.target.files[0]);
+    setImagePreview(URL.createObjectURL(event.target.files[0]));
+  };
+
   // Upload Image
-  const handleSubmitImage = async (values, actions) => {
-    const jwtToken = localStorage.getItem("token");
+  // const handleSubmitImage = async (event) => {
+  //   event.preventDefault();
+  //   const formData = new FormData();
+  //   formData.append("imageFile", image);
+  //   try {
+  //     const response = await axios({
+  //       method: "post",
+  //       url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/upload-image`,
+  //       formData,
+  //       headers: {
+  //         apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+  //         Authorization: `Bearer ${jwtToken}`,
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     });
+     
 
+
+  //     console.log("Response data:", response.data);
+  //     setImageUrl(response.data.url);
+  //     alert("Your photo has been uploaded successfully!");
+  //   } catch (error) {
+  //     alert("Failed to upload photo!");
+  //     console.error(error);
+  //   }
+  // };
+
+  const handleSubmitImage = (event) => {
+    event.preventDefault();
     const formData = new FormData();
-    formData.append("imageFile", values.imageFile);
-
-    try {
-      const response = await axios({
-        method: "post",
-        url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/create-post`,
-        headers: {
-          apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
-          Authorization: `Bearer ${jwtToken}`,
-          "Content-Type" : "multipart/form-data"
-        },
-        data: formData
-      });
-
-      console.log("Response data:", response.data);
+    formData.append("image", image);
+    axios({
+      method: "post",
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/upload-image`,
+      data: formData,
+      headers: {
+        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+        Authorization: `Bearer ${jwtToken}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then((response) => {
+      console.log(response.data);
       setImageUrl(response.data.url);
       alert("Your photo has been uploaded successfully!");
-    } catch (error) {
-      alert("Failed to upload photo!");
-      console.error(error);
-    }
-
-    actions.setSubmitting(false);
+      })
+      .catch(() => {
+        alert("You have to login to use this feature!");
+      });
   };
 
   useEffect(() => {
@@ -113,32 +143,27 @@ const UploadPost = () => {
 
 
                 <Formik
-                  initialValues={initialValues}
-                  validationSchema={validationSchema}
                   onSubmit={handleSubmitImage}
-                >
-                  {(props) => (
-                    <Form>
+                >                    
+                <Form>
                       <div>
                         <label htmlFor="imageFile">Image File</label>
                         <input
                           type="file"
                           id="imageFile"
                           name="imageFile"
-                          onChange={(event) =>
-                            props.setFieldValue("imageFile", event.currentTarget.files[0])
-                          }
+                          onChange={onUpload}
                         />
                         <ErrorMessage name="imageFile" />
                       </div>
-                      <button type="submit" disabled={props.isSubmitting}>
-                        {props.isSubmitting ? "Uploading..." : "Upload Photo"}
+                      <button type="submit" >
+                        Upload Photo
                       </button>
                     </Form>
-                  )}
+
                 </Formik>
                 <p>
-                {imageUrl && <img src={imageUrl} alt="Uploaded Photo" />}
+                {preview && <img src={preview} alt="Uploaded Photo" />}
                 </p>
 
 
