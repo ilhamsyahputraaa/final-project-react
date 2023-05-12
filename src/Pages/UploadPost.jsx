@@ -62,6 +62,7 @@ const UploadPost = () => {
       .required("Required"),
   });
 
+  // Upload Image
   const handleSubmitImage = async (values, actions) => {
     const jwtToken = localStorage.getItem("token");
 

@@ -68,7 +68,9 @@ function ProfilePage() {
       .then((response) => {
         console.log(response.data.data)
         setIsLoading(false);
-        setUserPost(response.data.data.posts)
+        setUserPost(response.data.data.posts.sort((a, b) => {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        }));
         setPostCount(response.data.data)
       })
       .catch((error) => {
