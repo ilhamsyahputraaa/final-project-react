@@ -27,6 +27,9 @@ function DetailPostPage() {
   const jwtToken = localStorage.getItem("token");
 
   const [totalLikes, setTotalLikes] = useState(0);
+  const [isLikes, setIsLikes] = useState(false);
+  const [toggleLike, setToggleLike] = useState(false);
+
 
     // Get food and food review by ID
     const getPostDetail = useCallback(() => {
@@ -86,6 +89,51 @@ function DetailPostPage() {
             });
         },
     });
+  
+  // Handle Like
+  const handleLikeButton = (postDetail) => {
+    const postId = postDetail.id
+    axios({
+      method: "post",
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/like`,
+      headers: {
+        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+        Authorization: `Bearer ${jwtToken}`,
+      },
+      data: {
+        postId: postId,
+      },
+    })
+      .then(() => {
+        setToggleLike((prevState) => !prevState);
+      })
+      .catch(() => {
+        alert("You have to login to use this feature!");
+      });
+  };
+
+  // Handle unlike
+  const handleUnlikeButton = (postDetail) => {
+    const postId = postDetail.id
+    axios({
+      method: "post",
+      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/unlike`,
+      headers: {
+        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+        Authorization: `Bearer ${jwtToken}`,
+      },
+      data: {
+        postId: postId,
+      },
+    })
+      .then(() => {
+        setToggleLike((prevState) => !prevState);
+      })
+      .catch(() => {
+        alert("You have to login to use this feature!");
+      });
+  };
+
 
     // Delete Comment
     const handleDeleteComment = (commentId) => {
@@ -144,7 +192,7 @@ function DetailPostPage() {
           const post = response.data.data.posts.find((post) => post.id === postId);
           if (post) {
             setTotalLikes(post)
-            console.log(`Total likes of post ${postId}: ${post.totalLikes}`);
+            setIsLikes(post)
           } else {
             console.log(`Post with postId ${postId} not found`);
           }
@@ -162,7 +210,7 @@ function DetailPostPage() {
     useEffect(() => {
         getPostDetail();
         getLikesOfPost();
-    }, [isLoading, postId]);
+    }, [isLoading, postId, toggleLike]);
 
   
 
@@ -196,8 +244,9 @@ function DetailPostPage() {
         <Card id='PostCard' className='p-4 d-flex gap-4'>
             <Row>
                 <Col id='ActionButtonPost'>
-                    <FontAwesomeIcon icon={faHeart} />
-                    <Col className='Likes'>{totalLikes.totalLikes} total Likes disini</Col>
+                  
+                <FontAwesomeIcon icon={faHeart} style={!isLikes.isLike ? { color: "grey" } : { color: "red" }} onClick={() => { isLikes.isLike ? handleUnlikeButton(postDetail) : handleLikeButton(postDetail); }} />
+                    <Col className='Likes'>{totalLikes.totalLikes} Likes</Col>
                 </Col>
             </Row>
             <Card.Text>

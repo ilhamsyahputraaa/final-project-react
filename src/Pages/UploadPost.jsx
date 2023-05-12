@@ -8,15 +8,14 @@ import NavBar from "../Components/NavBar";
 const UploadPost = () => {
   const jwtToken = localStorage.getItem("token");
   const myId = localStorage.getItem("id");
-  const [imageFile , setImageFile] = useState(null);
   const [imageUrl , setImageUrl] = useState(null);
   const formErrorStyle = { color: "red", fontSize: "12px", padding: "0", margin: "0" };
   const [isLoading, setIsLoading] = useState(true);
 
-  // Upload Post Formik
+  // Create Post Formik
   const formik = useFormik({
     initialValues: {
-      caption: "",
+      caption: `${imageUrl ? (imageUrl) : ("")}`,
       imageUrl: "",
     },
     validationSchema: Yup.object({
@@ -47,37 +46,49 @@ const UploadPost = () => {
     },
   });
 
+  const initialValues = {
+    imageFile: null,
+  };
+
   const validationSchema = Yup.object().shape({
-    image: Yup.mixed()
-      .required('Image is required')
-      .test('fileType', 'Only image files are allowed', (value) => {
-        return value && ['image/jpeg', 'image/png', 'image/gif'].includes(value.type);
-      }),
+    caption: Yup.string().required("Required"),
+    imageFile: Yup.mixed()
+      .test("fileSize", "The file is too large", (value) => {
+        return value && value.size <= 1024 * 1024;
+      })
+      .test("fileType", "Only image files are allowed", (value) => {
+        return value && /^image\//.test(value.type);
+      })
+      .required("Required"),
   });
 
-  const handleUploadImage = (event) => {
-    event.preventDefault();
-    const bodyFormData = new FormData();
-    bodyFormData.append('image' , imageFile);
-    axios({
-      method: "post",
-      url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/upload-image`,
-      headers: {
-        apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
-        Authorization: `Bearer ${jwtToken}`,
-        "Content-Type": "multipart/form-data"
-      },
-      data: bodyFormData
-    })
-      .then((response) => {
-        alert("Your image has been successfully added!");
-        setImageUrl(response.data.url);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        alert("Something wrong happened!");
-        console.log(error);
+  const handleSubmitImage = async (values, actions) => {
+    const jwtToken = localStorage.getItem("token");
+
+    const formData = new FormData();
+    formData.append("imageFile", values.imageFile);
+
+    try {
+      const response = await axios({
+        method: "post",
+        url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/create-post`,
+        headers: {
+          apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+          Authorization: `Bearer ${jwtToken}`,
+          "Content-Type" : "multipart/form-data"
+        },
+        data: formData
       });
+
+      console.log("Response data:", response.data);
+      setImageUrl(response.data.url);
+      alert("Your photo has been uploaded successfully!");
+    } catch (error) {
+      alert("Failed to upload photo!");
+      console.error(error);
+    }
+
+    actions.setSubmitting(false);
   };
 
   useEffect(() => {
@@ -100,27 +111,35 @@ const UploadPost = () => {
                 <h1 className="login-title">Upload Post</h1>
 
 
-                <Formik onSubmit={handleUploadImage} validationSchema={validationSchema}>
-                  {({ values, errors, touched, setFieldValue }) => (
+                <Formik
+                  initialValues={initialValues}
+                  validationSchema={validationSchema}
+                  onSubmit={handleSubmitImage}
+                >
+                  {(props) => (
                     <Form>
                       <div>
-                        <label htmlFor="image">Image:</label>
-                        <Field
+                        <label htmlFor="imageFile">Image File</label>
+                        <input
                           type="file"
-                          id="image"
-                          image="image" // <-- ubah properti name menjadi "image"
-                          accept="image/jpeg,image/png,image/gif"
-                          onChange={(event) => {
-                            setFieldValue('image', event.currentTarget.files[0]);
-                          }}
+                          id="imageFile"
+                          name="imageFile"
+                          onChange={(event) =>
+                            props.setFieldValue("imageFile", event.currentTarget.files[0])
+                          }
                         />
-                        <ErrorMessage name="image" />
+                        <ErrorMessage name="imageFile" />
                       </div>
-
-                      <button type="submit">Upload Image</button>
+                      <button type="submit" disabled={props.isSubmitting}>
+                        {props.isSubmitting ? "Uploading..." : "Upload Photo"}
+                      </button>
                     </Form>
                   )}
                 </Formik>
+                <p>
+                {imageUrl && <img src={imageUrl} alt="Uploaded Photo" />}
+                </p>
+
 
                 <Form onSubmit={formik.handleSubmit}>
                   <Form.Group controlId="caption" className="uploadPost-group mb-2">

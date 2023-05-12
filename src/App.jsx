@@ -4,7 +4,9 @@ import axios from 'axios'
 import NavBar from './Components/NavBar';
 import { Card, Col, Row, Button, Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faComment } from '@fortawesome/free-solid-svg-icons'
+import { faHeart, faComment } from '@fortawesome/free-solid-svg-icons';
+import { format } from 'date-fns';
+
 
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
   const [followingList, setFollowingList] = useState([])
   const [followerList, setFollowerList] = useState([])
   const [explorePosts, setExplorePosts] = useState([])
+  const [timeStamp, setTimeStamp] = useState("")
 
  
   const jwtToken = localStorage.getItem("token");
@@ -288,23 +291,22 @@ function App() {
                   <div id='AvatarImage'><img src={post.user.profilePictureUrl} alt="" className='AvatarPost' style={{ objectFit: "cover", aspectRatio: "1/1" }} /></div>
                   {post.user.username}
                 </Col>
+                  <Button variant="primary" href={`/detail?postId=${post.id}`}>View Post</Button>
               </Col>
               <Card.Img variant="top" src={post.imageUrl} onClick={() => window.location.assign(`/detail?postId=${post.id}`)} />
               <Card.Body className='d-flex row gap-3'>
-                <Col id='ActionButtonPost' >
+                <Col id='ActionButtonPost' className='d-flex gap-2 align-items-center'>
                   <FontAwesomeIcon icon={faHeart}
                     style={!post.isLike ? { color: "grey" } : { color: "red" }}
                     onClick={() => { post.isLike ? handleUnlikeButton(post) : handleLikeButton(post); }} />
 
-                  <div className='Likes'>{post.totalLikes} Likes</div>
+                  <div className='Likes p-0 m-0'>{post.totalLikes} Likes</div>
                 </Col>
-                <Card.Text >Last updated {post.updatedAt}</Card.Text>
-                <Card.Text>
-                  <span><h6>{post.user.username}</h6></span><span><p>{post.caption}</p></span>
-
+                <Card.Text style={{ color: "grey" }}>Last updated {format(new Date(post.updatedAt), 'EEEE, dd MMMM yyyy')} </Card.Text>
+                <Card.Text className='d-flex gap-2 align-items-end'>
+                  <h6>{post.user.username}</h6><p className='caption'>{post.caption}</p>
                 </Card.Text>
                 <Col>
-                  <Button variant="primary" href={`/detail?postId=${post.id}`}>View Post</Button>
                 </Col>
               </Card.Body>
             </Card>
