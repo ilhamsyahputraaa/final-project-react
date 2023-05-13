@@ -22,7 +22,6 @@ function App() {
   const [followingList, setFollowingList] = useState([])
   const [followerList, setFollowerList] = useState([])
   const [explorePosts, setExplorePosts] = useState([])
-  const [timeStamp, setTimeStamp] = useState("")
 
  
   const jwtToken = localStorage.getItem("token");
@@ -269,28 +268,13 @@ function App() {
         </Container>
 
         <div className='p-0 d-flex row gap-3 me-0'>
-          {/* {followingPost.map(post => (
-            <PostCard 
-              key={post.id}
-              avatar={post.user.profilePictureUrl}
-              username={post.user.username}
-              postImage={post.imageUrl}
-              likes={post.totalLikes}
-              lastUpdate={post.updatedAt}
-              caption={post.caption}
-              postId={post.id}
-              handleLike={() => handleLikeButton(post.postId)}
-              handleUnlike={() => handleUnlikeButton(post.postId)}
-              isLike={post.isLike}
-            />
-          ))} */}
           {followingPost.map(post => (
-            <Card style={{ width: '100%' }} id='PostCard' key={post.i}>
+            <Card style={{ width: '100%' }} id='PostCard' key={post.id}>
               <Col id='UserPost' onClick={() => window.location.assign(`/profile?userId=${post.userId}`)}>
                 <Col id='UserName' className='d-flex gap-4'>
-                  <div id='AvatarImage'><img src={post.user.profilePictureUrl} alt="" className='AvatarPost' style={{ objectFit: "cover", aspectRatio: "1/1" }} /></div>
+                  <div id='AvatarImage'><img src={post.user?.profilePictureUrl} alt="" className='AvatarPost' style={{ objectFit: "cover", aspectRatio: "1/1" }} /></div>
                   <div>
-                    {post.user.username}<Card.Text style={{ color: "grey" }}>{format(new Date(post.updatedAt), 'EEEE, dd MMMM yyyy')} </Card.Text>
+                    {post.user?.username}<Card.Text style={{ color: "grey" }}>{format(new Date(post.updatedAt), 'EEEE, dd MMMM yyyy')} </Card.Text>
                   </div>
                   
                 </Col>
@@ -307,7 +291,7 @@ function App() {
                 </Col>
                 
                 <Card.Text >
-                  <h6>{post.user.username}</h6><p className='caption'>{post.caption}</p>
+                  <h6>{post.user?.username}</h6><p className='caption'>{post.caption}</p>
                 </Card.Text>
                 
                 <Col>

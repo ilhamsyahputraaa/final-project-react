@@ -81,8 +81,9 @@ function DetailPostPage() {
             },
           })
             .then(() => {
-              alert("Comment has been submitted");
-              window.location.reload();
+              getPostDetail()
+              // alert("Comment has been submitted");
+              // window.location.reload();
             })
             .catch((error) => {
               console.log(error);
@@ -147,8 +148,9 @@ function DetailPostPage() {
             },
         })
             .then(() => {
-            alert(`This Comment has been deleted.`);
-            window.location.reload();
+              getPostDetail()
+            // alert(`This Comment has been deleted.`);
+            // window.location.reload();
             })
             .catch((error) => {
             console.log(error);
