@@ -96,7 +96,7 @@ const UploadPost = () => {
   return (
     <>
     <NavBar />
-    <div className='body d-flex row gap-5   justify-content-center align-items-center' style={{ height: '100vh' }}>
+    <div className='body d-flex row gap-5   justify-content-center align-items-center'>
 
             {/* Content */}
             <div className='Content d-flex row gap-5 col-4 ' >
@@ -106,9 +106,14 @@ const UploadPost = () => {
                     <div className="uploadPost-bubble  m-auto mb-5">
                         <h1 className="login-title">Upload Post</h1>
 
-                        <form  >
-                          <div>
-                            <label htmlFor="imageFile">Image File</label>
+                        <form className="upload-field mt-4 mb-4" >
+                          <div >
+                            <label htmlFor="imageFile" className="mb-3">You can chose to either upload a file or copy the image Url to the 'Image Url' Field.</label>
+
+                            <div className="mb-3">
+                                {preview && <img src={preview} alt="Uploaded Photo" style={{width : 300}}/>}
+                            </div>
+
                             <input
                               type="file"
                               id="imageFile"
@@ -116,30 +121,35 @@ const UploadPost = () => {
                               onChange={onUpload}
                             />
                           </div>
-                          <button onClick={handleSubmitImage}>
+                          <button onClick={handleSubmitImage} className='MainButton'>
                             Upload Photo
                           </button>
                         </form>
 
-                        {preview && <img src={preview} alt="Uploaded Photo" />}
-                <img src={imageUrl || preview} alt="" />
+
+
+
 
                         <Form onSubmit={formik.handleSubmit}>
-
-
-                        <Form.Group controlId="caption" className="uploadPost-group mb-2">
-                            <Form.Label className="uploadPost-label">Caption</Form.Label>
-                            <Form.Control placeholder="Image Caption" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.caption} />
-                            <Form.Text style={formErrorStyle}>{formik.touched.caption && formik.errors.caption}</Form.Text>
-                        </Form.Group>
 
                         <Form.Group controlId="imageUrlField" className="uploadPost-group mb-2">
                             <Form.Label className="register-label">Image Url</Form.Label>
                             <Form.Control type="text" placeholder="Image Url" onChange={formik.handleChange} value={formik.values.imageUrlField} />
                             <Form.Text style={formErrorStyle}>{formik.touched.imageUrlField && formik.errors.imageUrlField}</Form.Text>
                         </Form.Group>
+                        <p>
+                          If you already upload an image, please skip this step
+                        </p>
 
-                        <Button type="submit" variant="primary">
+                        <Form.Group controlId="caption" className="uploadPost-group mb-2 mt-4">
+                            <Form.Label className="uploadPost-label">Caption</Form.Label>
+                            <Form.Control placeholder="Image Caption" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.caption} />
+                            <Form.Text style={formErrorStyle}>{formik.touched.caption && formik.errors.caption}</Form.Text>
+                        </Form.Group>
+
+
+
+                        <Button type="submit" variant="primary" className='MainButton'>
                             Submit
                         </Button>
                         </Form>

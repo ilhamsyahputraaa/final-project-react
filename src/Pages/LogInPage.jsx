@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import LoginImage from "../assets/PlaceHolder/Login.png"
 
 const LoginPage = () => {
   const [passwordShown, setPasswordShown] = useState(false);
@@ -44,7 +45,7 @@ const LoginPage = () => {
           localStorage.setItem("username", response.data.user.username);
           localStorage.setItem("token", response.data.token);
           alert("You have signed in!");
-          window.location.assign("/");
+          window.location.assign("/home");
         })
         .catch(() => {
           alert("Invalid Email or Password");
@@ -56,8 +57,13 @@ const LoginPage = () => {
   return (
     <>
         <NavBar />
-        <div className='body d-flex row gap-5   justify-content-center align-items-center' style={{ height: '100vh' }}>
-
+        <div className='body d-flex row gap-5   justify-content-center align-items-center' >
+          {/* Container */}
+          <div className='Content d-flex row gap-5 col-6'>
+            <div className="register-section p-5 ">
+              <img src={LoginImage} alt="" style={{objectFit: "cover", width:600}}/>
+            </div>
+          </div>
           {/* Container */}
           <div className='Content d-flex row gap-5 col-4'>
             <div id="FollowingList" className="register-section p-5 ">
@@ -89,7 +95,7 @@ const LoginPage = () => {
 
                     {/* Log In */}
                     <Row>
-                      <Button disabled={!formik.isValid} type="submit" variant="primary"> Log In </Button>
+                      <Button disabled={!formik.isValid} type="submit" variant="primary" className='MainButton'> Log In </Button>
                       <Col className='RegisterButton'>
                         <span>Or  </span>
                         <a href="/register"> Register </a>

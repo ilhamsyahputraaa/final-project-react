@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import NavBar from "../Components/NavBar";
+import RegistImage from "../assets/PlaceHolder/Register.png";
 
 const RegisterPage = () => {
   const formErrorStyle = { color: "red", fontSize: "14px", padding: "0", margin: "0" };
@@ -48,7 +49,7 @@ const RegisterPage = () => {
       })
         .then(() => {
           alert("You have registered!");
-          window.location.assign("/login");
+          window.location.assign("/");
         })
         .catch(() => {
           alert("Something wrong happened!");
@@ -59,10 +60,10 @@ const RegisterPage = () => {
   return (
     <>
     <NavBar />
-    <div className='body d-flex row gap-5   justify-content-center align-items-center' style={{ height: '100vh' }}>
+    <div className='body d-flex row gap-5   justify-content-center align-items-center' >
 
         {/* Content */}
-        <div className='Content d-flex row gap-5 col-4'>
+        <div className='Content d-flex row gap-5 col-5'>
             <div className="register-section p-5" id="FollowingList">
                 <div className="register-regist-area">
                 <div className="register-bubble m-auto">
@@ -142,14 +143,14 @@ const RegisterPage = () => {
                     </Form.Group>
 
 
-                    <Button disabled={!formik.isValid} type="submit" variant="primary">
+                    <Button disabled={!formik.isValid} type="submit" variant="primary" className='MainButton'>
                         Sign Up
                     </Button>
                     </Form>
 
                     <span className="regist-text mt-4 pb-3">
                     Already have an account?
-                    <a className="regist-link" href="/login">
+                    <a className="regist-link" href="/">
                         Sign In
                     </a>
                     </span>
@@ -157,6 +158,12 @@ const RegisterPage = () => {
                 </div>
             </div>
         </div>
+
+        <div className='Content d-flex row gap-5 col-4'>
+            <div className="register-section p-5 ">
+              <img src={RegistImage} alt="" style={{objectFit: "cover", width:600}} />
+            </div>
+          </div>
 
     </div>
 </>

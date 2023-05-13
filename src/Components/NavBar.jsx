@@ -67,15 +67,15 @@ function NavBar() {
       <Container fluid  id='NavMenu' >
         {/* Brand */}
         <img src={LogoImage} alt="Logo Image" className='me-2'/>
-        <Navbar.Brand href="/" className='col-3 NavLogo'>PhotoShare</Navbar.Brand>
+        <Navbar.Brand href="/home" className='col-3 NavLogo'>PhotoShare</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         {/* BurgerMenu */}
         <Navbar.Collapse id="navbarScroll" className='col-6 NavMenus'>
           {/* Menu */}
           <Nav className='d-flex gap-3'>
-              <Nav.Link href="/" activeClassName="active-link">Home</Nav.Link>
+              <Nav.Link href="/home" activeClassName="active-link">Home</Nav.Link>
               <Nav.Link href="/explore" activeClassName="active-link">Explore</Nav.Link>
-              <Button variant="primary" href='/upload'>Upload</Button>
+              <Button variant="primary" href='/upload' className='MainButton'>Upload</Button>
           </Nav>
 
           {/* DropDown */}
@@ -86,7 +86,7 @@ function NavBar() {
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={handleLogout}>Log Out</NavDropdown.Item>
               </NavDropdown>) :
-              (<Button variant="primary" onClick={() => window.location.assign("/login")}>Log In</Button>)}
+              (<Button variant="primary" onClick={() => window.location.assign("/")} className='MainButton'>Log In</Button>)}
           </div>
        
         </Navbar.Collapse>
@@ -99,7 +99,7 @@ function NavBar() {
           <NavDropdown.Divider />
           <NavDropdown.Item onClick={handleLogout}>Log Out</NavDropdown.Item>
         </NavDropdown>): 
-        (<Button variant="primary" onClick={() => window.location.assign("/login")}>Log In</Button> )}  
+        (<Button variant="primary" onClick={() => window.location.assign("/")}>Log In</Button> )}  
         </div>
  
 

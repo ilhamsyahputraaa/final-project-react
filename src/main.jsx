@@ -17,7 +17,7 @@ import ExplorePage from "./Pages/ExplorePage";
 import EditPost from "./Pages/EditPost";
 
 
-const noAuth = ["/", "/login", "/register", "/detail"];
+const noAuth = ["/","login", "/register"];
 
 const auth = {
   noAuth: (Component) => {
@@ -33,8 +33,8 @@ const auth = {
       if (isLoginPage) {
         return <LoginPage />;
       } else {
-        alert("You have to sign in to access this page!");
         window.location.assign("/login");
+        alert("You have to sign in to access this page!");
       }
     }
   },
@@ -43,12 +43,12 @@ const auth = {
 const router = createBrowserRouter([
   {
     path: "/", // No Authentication Needed
-    element: auth.noAuth(App),
+    element: auth.noAuth(LoginPage),
     errorElement: <PageError />,
   },
   {
-    path: "/login", // No Authentication Needed
-    element: auth.noAuth(LoginPage),
+    path: "/home", // No Authentication Needed
+    element: auth.login(App),
     errorElement: <PageError />,
   },
   {
@@ -58,39 +58,39 @@ const router = createBrowserRouter([
   },
   {
     path: "/profile", // Need to Login
-    element: auth.noAuth(ProfilePage),
+    element: auth.login(ProfilePage),
     errorElement: <PageError />,
   },
   {
     path: "/editprofile", // Need to Login
-    element: auth.noAuth(EditProfile),
+    element: auth.login(EditProfile),
     errorElement: <PageError />,
   },
   {
     path: "/detail", // No Authentication Needed
-    element: auth.noAuth(DetailPostPage),
+    element: auth.login(DetailPostPage),
     errorElement: <PageError />,
   },
   {
     path: "/upload", // Need to Login
-    element: auth.noAuth(UploadPost),
+    element: auth.login(UploadPost),
     errorElement: <PageError />,
   },
   {
     path: "/explore", // Need to Login
-    element: auth.noAuth(ExplorePage),
+    element: auth.login(ExplorePage),
     errorElement: <PageError />,
   },{
     path: "/eerror", // Need to Login
-    element: auth.noAuth(PageError),
+    element: auth.login(PageError),
     errorElement: <PageError />,
   },{
     path: "/editpost", // Need to Login
-    element: auth.noAuth(EditPost),
+    element: auth.login(EditPost),
     errorElement: <PageError />,
   },{
     path: "/editprofile", // Need to Login
-    element: auth.noAuth(EditProfile),
+    element: auth.login(EditProfile),
     errorElement: <PageError />,
   },
 ]);

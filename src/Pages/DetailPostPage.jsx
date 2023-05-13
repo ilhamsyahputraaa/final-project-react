@@ -179,7 +179,7 @@ function DetailPostPage() {
       })
           .then(() => {
           alert(`This Post has been deleted.`);
-          window.location.assign("/");
+          window.location.assign("/home");
           })
           .catch((error) => {
           console.log(error);
@@ -242,7 +242,7 @@ function DetailPostPage() {
             (<div className='d-flex gap-4'>
               <FontAwesomeIcon icon={faTrash} onClick={() => handleDeletePost(postDetail.id)}/>
               <FontAwesomeIcon icon={faPenToSquare} onClick={()=> window.location.assign(`/editpost?postId=${postId}`)}/>
-                </div>) : (<Button variant='primary' onClick={() => window.location.assign(`/profile?userId=${postDetail.userId}`)} >View Profile</Button>)}
+                </div>) : (<Button variant='primary' onClick={() => window.location.assign(`/profile?userId=${postDetail.userId}`)} className='MainButton'>View Profile</Button>)}
             </Col>
             <Card.Img variant="top" src={postDetail.imageUrl} />
             
@@ -261,7 +261,7 @@ function DetailPostPage() {
                   <div className='d-flex column gap-2 align-items-center'>
                     <FontAwesomeIcon icon={faComment}
                     style={{ color: "grey" }}
-                    onClick={() => { postDetail.isLike ? handleUnlikeButton(postDetail) : handleLikeButton(postDetail); }} />
+                     />
 
                   <Col className='Likes p-0 m-0'>{commentCount[postDetail.id] ?? 0} Comments</Col>
                   </div>
@@ -286,7 +286,7 @@ function DetailPostPage() {
                 onChange={addComment.handleChange}
                 value={addComment.values.comment}
                 />
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" className='MainButton'>
                 Post Comment
                 </Button>   
             </Form.Group>

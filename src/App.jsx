@@ -257,7 +257,7 @@ function App() {
               <Row> <p>Following</p> <h2>{myInfo.totalFollowing}</h2></Row>
               <Row> <p>Followers</p> <h2>{myInfo.totalFollowers}</h2></Row>
             </Col>
-                <Button variant="primary" onClick={() => window.location.assign(`/profile?userId=${myInfo.id}`)}>View Profile</Button>
+                <Button variant="primary" onClick={() => window.location.assign(`/profile?userId=${myInfo.id}`)} className='MainButton'>View Profile</Button>
           </Row>
       </div>
 
@@ -288,7 +288,7 @@ function App() {
                   </div>
                   
                 </Col>
-                  <Button variant="primary" href={`/detail?postId=${post.id}`}>View Post</Button>
+                  <Button variant="primary" href={`/detail?postId=${post.id}`} className='MainButton'>View Post</Button>
               </Col>
               <Card.Img variant="top" src={post.imageUrl} onClick={() => window.location.assign(`/detail?postId=${post.id}`)} />
               <Card.Body className='d-flex row gap-3'>
@@ -302,8 +302,7 @@ function App() {
                   </div>
                   <div className='d-flex column gap-2 align-items-center'>
                     <FontAwesomeIcon icon={faComment}
-                    style={{ color: "grey" }}
-                    onClick={() => { post.isLike ? handleUnlikeButton(post) : handleLikeButton(post); }} />
+                    style={{ color: "grey" }}/>
 
                   <div className='Likes p-0 m-0'>{commentCount[post.id] ?? 0} Comments</div>
                   </div>

@@ -153,7 +153,7 @@ function EditProfile() {
 
 
                 <div></div>
-                <Button className="primary" type="submit">
+                <Button variant="primary" type="submit" className='MainButton'>
                     Save Changes
                 </Button>
             </Form>

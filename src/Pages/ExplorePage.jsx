@@ -1,5 +1,4 @@
-import {Container,  Row, Col, Button, Nav, Tabs, Tab} from 'react-bootstrap';
-import AvatarImage from '../assets/PlaceHolder/100.png';
+import {Container,  Row, Col} from 'react-bootstrap';
 import NavBar from '../Components/NavBar';
 import PostCardSmall from '../Components/PostCardSmall';
 import { useCallback, useEffect, useState } from 'react';
@@ -94,6 +93,10 @@ function ExplorePage() {
                 imageUrl={post?.imageUrl}
                 updatedAt={post?.updatedAt}
                 postId={post?.id}
+                profilImage={post.user?.profilePictureUrl}
+                username={post.user?.username}
+                name={post.user?.email}
+
                 style={{ height: "100%", objectFit: "cover" }}
               />
             </Col>   

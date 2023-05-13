@@ -117,7 +117,7 @@ const EditPost = () => {
                         <Form.Text style={formErrorStyle}>{updatePost.touched.imageUrl && updatePost.errors.imageUrl}</Form.Text>
                     </Form.Group>
 
-                    <Button type="submit" variant="primary">
+                    <Button type="submit" variant="primary" className='MainButton'>
                         Submit
                     </Button>
                     </Form>
