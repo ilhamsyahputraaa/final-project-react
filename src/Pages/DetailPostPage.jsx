@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSearchParams } from "react-router-dom";
 import {faHeart, faComment, faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { useState, useEffect, useCallback } from 'react';
+import { format } from 'date-fns';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from "yup";
@@ -29,9 +30,10 @@ function DetailPostPage() {
   const [totalLikes, setTotalLikes] = useState(0);
   const [isLikes, setIsLikes] = useState(false);
   const [toggleLike, setToggleLike] = useState(false);
+  const [commentCount, setCommentCount] = useState({});
 
 
-    // Get food and food review by ID
+    // Get Post Detail
     const getPostDetail = useCallback(() => {
     axios({
         method: "get",
@@ -42,11 +44,17 @@ function DetailPostPage() {
         },
     })
         .then((response) => {
-        console.log(response.data.data);
-        setPostDetail(response.data.data);
-        setPostUser(response.data.data.user);
-        setCommentList(response.data.data.comments);
-        setIsLoading(false);
+          console.log(response.data.data);
+          setPostDetail(response.data.data);
+          setPostUser(response.data.data.user);
+          setCommentList(response.data.data.comments);
+          setIsLoading(false);
+          const commentCount = response.data.data.comments.length;
+            setCommentCount((prevCount) => ({
+              ...prevCount,
+              [postId]: commentCount,
+            }));
+
         })
         .catch((error) => {
         console.log(error);
@@ -245,14 +253,23 @@ function DetailPostPage() {
       <div className=' SideBar col-3 d-flex row gap-4'>
         <Card id='PostCard' className='p-4 d-flex gap-4'>
             <Row>
-                <Col id='ActionButtonPost'>
-                  
-                <FontAwesomeIcon icon={faHeart} style={!isLikes.isLike ? { color: "grey" } : { color: "red" }} onClick={() => { isLikes.isLike ? handleUnlikeButton(postDetail) : handleLikeButton(postDetail); }} />
+                <Col id='ActionButtonPost' className='d-flex gap-4 column align-items-center'>
+                  <div className='d-flex column gap-2 align-items-center'>
+                  <FontAwesomeIcon icon={faHeart} style={!isLikes.isLike ? { color: "grey" } : { color: "red" }} onClick={() => { isLikes.isLike ? handleUnlikeButton(postDetail) : handleLikeButton(postDetail); }} />
                     <Col className='Likes'>{totalLikes.totalLikes} Likes</Col>
+                  </div>
+                  <div className='d-flex column gap-2 align-items-center'>
+                    <FontAwesomeIcon icon={faComment}
+                    style={{ color: "grey" }}
+                    onClick={() => { postDetail.isLike ? handleUnlikeButton(postDetail) : handleLikeButton(postDetail); }} />
+
+                  <Col className='Likes p-0 m-0'>{commentCount[postDetail.id] ?? 0} Comments</Col>
+                  </div>
+                  
                 </Col>
             </Row>
-            <Card.Text>
-            {postDetail.updatedAt}
+            <Card.Text style={{ color: "grey" }}>
+            {format(new Date(postDetail.updatedAt), 'EEEE, dd MMMM yyyy')}
             </Card.Text>
             <Card.Text>
             {postDetail.caption}

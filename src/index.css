@@ -204,6 +204,11 @@ p{
     justify-content: start;
 }
 
+Button{
+    color: rgb(152, 152, 182);
+    border-radius: 100%;
+}
+
 @media screen and (max-width: 767px) {
     .NavProfileDesktop{
         display: none;

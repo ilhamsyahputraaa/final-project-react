@@ -22,6 +22,8 @@ function App() {
   const [followingList, setFollowingList] = useState([])
   const [followerList, setFollowerList] = useState([])
   const [explorePosts, setExplorePosts] = useState([])
+  const [commentCount, setCommentCount] = useState({});
+
 
  
   const jwtToken = localStorage.getItem("token");
@@ -128,17 +130,39 @@ function App() {
       },
     })
       .then((response) => {
-        // console.log(response.data.data.posts);
-        // setMostFavorite(response.data.data.sort((a, b) => b.totalLikes - a.totalLikes).filter((e, i) => i < 3));
-        setIsLoading(false);
-        setFollowingPost(response.data.data.posts.sort((a, b) => {
+        const posts = response.data.data.posts.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
-        }));
+        });
+        setIsLoading(false);
+        setFollowingPost(posts);
+  
+        // Get comment count for each post
+        posts.map(post => {
+          axios({
+            method: "get",
+            url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/post/${post.id}`,
+            headers: {
+              apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          })
+            .then((response) => {
+              const commentCount = response.data.data.comments.length;
+              setCommentCount((prevCount) => ({
+                ...prevCount,
+                [post.id]: commentCount,
+              }));
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        });
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+  
 
   //Get My Following List
   const getFollowingList = () => {
@@ -254,8 +278,6 @@ function App() {
 
       {/* Content */}
       <div className='Content d-flex row gap-4 col-5 p-2'>
-        {isLogin ? 
-        (
         <div className='d-flex row p-0 gap-4 m-0 Content'>
         <Container fluid id='FollowingList' className='d-flex  row'>
           <h6>My Following</h6>
@@ -282,16 +304,26 @@ function App() {
               </Col>
               <Card.Img variant="top" src={post.imageUrl} onClick={() => window.location.assign(`/detail?postId=${post.id}`)} />
               <Card.Body className='d-flex row gap-3'>
-                <Col id='ActionButtonPost' className='d-flex gap-2 align-items-center'>
-                  <FontAwesomeIcon icon={faHeart}
+                <Col id='ActionButtonPost' className='d-flex gap-4 column align-items-center'>
+                  <div className='d-flex column gap-2 align-items-center'>
+                    <FontAwesomeIcon icon={faHeart}
                     style={!post.isLike ? { color: "grey" } : { color: "red" }}
                     onClick={() => { post.isLike ? handleUnlikeButton(post) : handleLikeButton(post); }} />
 
                   <div className='Likes p-0 m-0'>{post.totalLikes} Likes</div>
+                  </div>
+                  <div className='d-flex column gap-2 align-items-center'>
+                    <FontAwesomeIcon icon={faComment}
+                    style={{ color: "grey" }}
+                    onClick={() => { post.isLike ? handleUnlikeButton(post) : handleLikeButton(post); }} />
+
+                  <div className='Likes p-0 m-0'>{commentCount[post.id] ?? 0} Comments</div>
+                  </div>
+                  
                 </Col>
                 
                 <Card.Text >
-                  <h6>{post.user?.username}</h6><p className='caption'>{post.caption}</p>
+                  <h6>{post.user?.username}</h6><p className='caption'>{post.caption}</p> 
                 </Card.Text>
                 
                 <Col>
@@ -301,39 +333,7 @@ function App() {
           ))}
         </div>          
         </div>
-
-        ) : 
-        (
-        <div>
-        {explorePosts.map(posts => (
-          <Card style={{ width: '100%' }} id='PostCard' key={posts.i}>
-            <Col id='UserPost' onClick={() => window.location.assign(`/profile?userId=${posts.userId}`)}>
-              <Col id='UserName' className='d-flex gap-2'>
-                <div id='AvatarImage'><img src={posts.user.profilePictureUrl} alt="" className='AvatarPost' style={{ objectFit: "cover", aspectRatio: "1/1" }} /></div>
-                {posts.user.username}
-              </Col>
-              <Button variant="primary" href={`/detail?postId=${posts.id}`}>View Post</Button>
-            </Col>
-            <Card.Img variant="top" src={posts.imageUrl} onClick={() => window.location.assign(`/detail?postId=${posts.id}`)} />
-            <Card.Body className='d-flex row gap-3'>
-              <Col id='ActionButtonPost' className='d-flex gap-2 align-items-center'>
-                {/* <FontAwesomeIcon icon={faHeart}
-                  style={!posts.isLike ? { color: "grey" } : { color: "red" }}
-                  onClick={() => { posts.isLike ? handleUnlikeButton(posts) : handleLikeButton(posts); }} /> */}
-
-                <div className='Likes p-0 m-0'>{posts.totalLikes} Likes</div>
-              </Col>
-              <Card.Text style={{ color: "grey" }}>Last updated {format(new Date(posts.updatedAt), 'EEEE, dd MMMM yyyy')} </Card.Text>
-              <Card.Text className='d-flex gap-2 align-items-end'>
-                <h6>{posts.user.username}</h6><p className='caption'>{posts.caption}</p>
-              </Card.Text>
-              <Col>
-              </Col>
-            </Card.Body>
-          </Card>
-        ))}
-        </div>
-        )}
+       
 
 
           
