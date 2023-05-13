@@ -5,11 +5,13 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import axios from 'axios';
+import LogoImage from '../assets/PlaceHolder/Logo (3).png';
 
 function NavBar() {
 
   const [isLogin, setIsLogin] = useState(false);
   const jwtToken = localStorage.getItem("token");
+  const myId = localStorage.getItem("id")
 
   const handleIsLogin = () => {
     localStorage.getItem("id") ? setIsLogin(true) : setIsLogin(false);
@@ -61,18 +63,18 @@ function NavBar() {
 
 
   return (
-    <Navbar bg="light" expand="lg" id='NavBar'>
+    <Navbar expand="lg" id='NavBar'>
       <Container fluid  id='NavMenu' >
         {/* Brand */}
-        <Navbar.Brand href="/" className='col-3 NavLogo'>Photo Share</Navbar.Brand>
+        <img src={LogoImage} alt="Logo Image" className='me-2'/>
+        <Navbar.Brand href="/" className='col-3 NavLogo'>PhotoShare</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         {/* BurgerMenu */}
         <Navbar.Collapse id="navbarScroll" className='col-6 NavMenus'>
           {/* Menu */}
           <Nav className='d-flex gap-3'>
-              <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/explore">Explore</Nav.Link>
-              <Nav.Link href="#action1">About</Nav.Link>
+              <Nav.Link href="/" activeClassName="active-link">Home</Nav.Link>
+              <Nav.Link href="/explore" activeClassName="active-link">Explore</Nav.Link>
               <Button variant="primary" href='/upload'>Upload</Button>
           </Nav>
 
@@ -80,7 +82,7 @@ function NavBar() {
           <div className='col-3 NavProfile NavProfileMobile'>
             {isLogin ?
               (<NavDropdown title={localStorage.getItem("username")} id="navbarScrollingDropdown" >
-                <NavDropdown.Item href="/profile">View Profile</NavDropdown.Item>
+                <NavDropdown.Item href={`/profile?userId=${myId}`} >View Profile</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={handleLogout}>Log Out</NavDropdown.Item>
               </NavDropdown>) :
@@ -93,7 +95,7 @@ function NavBar() {
         <div className='col-3 NavProfile NavProfileDesktop'>
         {isLogin ? 
           (<NavDropdown title={localStorage.getItem("username")} id="navbarScrollingDropdown" >
-          <NavDropdown.Item href="/profile">View Profile</NavDropdown.Item>
+          <NavDropdown.Item href={`/profile?userId=${myId}`}>View Profile</NavDropdown.Item>
           <NavDropdown.Divider />
           <NavDropdown.Item onClick={handleLogout}>Log Out</NavDropdown.Item>
         </NavDropdown>): 

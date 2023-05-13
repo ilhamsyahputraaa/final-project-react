@@ -240,46 +240,32 @@ function App() {
   return (
     <>
     <NavBar />
-    <div className='body d-flex row gap-5 py-5'>
+    <div className='body d-flex row gap-5'>
       {/* Sidebar Kiri */}
-      <div className=' SideBar col-3 d-flex row gap-4 p-2 '>
-
-      {isLogin? (
-      <Row id='ProfileBadge' className='gap-4'>
-        <Col className='d-flex col UserName'>
-          <img src={myInfo.profilePictureUrl} alt="" className='AvatarImage'/> 
-            <Row>
-              <h4>{myInfo.username}</h4> 
-              <p>{myInfo.name}</p>
-            </Row>  
-        </Col>
-        {myInfo.bio}
-        <Col>
-        </Col>
-        <Col className='d-flex col mt-4 gap-4'>
-          <Row> <p>Posted</p> <h2>{myPost.totalItems}</h2></Row>
-          <Row> <p>Following</p> <h2>{myInfo.totalFollowing}</h2></Row>
-          <Row> <p>Followers</p> <h2>{myInfo.totalFollowers}</h2></Row>
-        </Col>
-            <Button variant="primary" onClick={() => window.location.assign(`/profile?userId=${myInfo.id}`)}>View Profile</Button>
-      </Row>) 
-      : 
-      (<Row id='ProfileBadge'>
-        <h6>You have not Log In Yet!</h6>
-        <p>To Access full feature please Log in An Account.</p>
-        
-        <Button variant="primary" onClick={() => window.location.assign("/login")}>Log In</Button>{' '}
-        <Col className='RegisterButton'>
-          <span>Or  </span>
-          <a href="/register"> Register </a>
-        </Col>
-      </Row>)}
+      <div className='SidebarHome SideBar col-lg-3 col-md-3 d-flex row gap-4 p-2 '>
+          <Row id='ProfileBadge' className='gap-4 SidebarHome'>
+            <Col className='d-flex col UserName'>
+              <img src={myInfo.profilePictureUrl} alt="" className='AvatarImage' style={{objectFit: "cover", aspectRatio: "1/1" }}/> 
+                <Row>
+                  <h4>{myInfo.username}</h4> 
+                  <p>{myInfo.name}</p>
+                </Row>  
+            </Col>
+            {myInfo.bio}
+            <Col className='d-flex col mt-4 gap-4'>
+              <Row> <p>Posted</p> <h2>{myPost.totalItems}</h2></Row>
+              <Row> <p>Following</p> <h2>{myInfo.totalFollowing}</h2></Row>
+              <Row> <p>Followers</p> <h2>{myInfo.totalFollowers}</h2></Row>
+            </Col>
+                <Button variant="primary" onClick={() => window.location.assign(`/profile?userId=${myInfo.id}`)}>View Profile</Button>
+          </Row>
       </div>
 
       {/* Content */}
-      <div className='Content d-flex row gap-4 col-5 p-2'>
+      <div className='Content d-flex row gap-4 col-lg-5 col-md-12 p-2'>
         <div className='d-flex row p-0 gap-4 m-0 Content'>
-        <Container fluid id='FollowingList' className='d-flex  row'>
+        <div className='FollowingListHome p-0 m-0'>
+          <Container fluid id='FollowingList' className='d-flex  row FollowingListHome'>
           <h6>My Following</h6>
           {followingList.map(following => (
             <Row className='d-flex FollowingUser col-2' onClick={() => window.location.assign(`/profile?userId=${following.id}`)}>
@@ -288,6 +274,8 @@ function App() {
               </div><p>{following.username}</p> </Row>
           ))}
         </Container>
+        </div>
+
 
         <div className='p-0 d-flex row gap-3 me-0'>
           {followingPost.map(post => (
@@ -341,8 +329,8 @@ function App() {
       </div>
 
       {/* Sidebar Kanan */}
-        <div className=' SideBar col-3 d-flex row p-2 '>
-          {isLogin ? (<Row id='ProfileBadge'>
+        <div className='SidebarHome SideBar col-3 d-flex row p-2 '>
+          <Row id='ProfileBadge' className=' SidebarHome'>
           <h6>My Followers</h6>
 
           {/* List Container */}
@@ -367,7 +355,7 @@ function App() {
 
 
           </div>
-        </Row>) : (null)}
+        </Row>
         
       </div>
     </div>

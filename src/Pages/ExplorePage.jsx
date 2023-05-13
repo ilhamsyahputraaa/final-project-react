@@ -69,10 +69,12 @@ function ExplorePage() {
     <>
     <NavBar />
     <div className='body d-flex row'>
-      <div className='Content d-flex row gap-3 col-9'>
+      <div className='Content d-flex row gap-3 col-lg-9 col-md-12 p-3'>
 
 
-      <Container fluid id='FollowingList' className='d-flex  row'>
+      
+      <div className='FollowingListHome'>
+        <Container fluid id='FollowingList' className='d-flex  row'>
         <h6>Sugestion</h6>
         {exploreUser.map(explore => (
           <Row className='d-flex FollowingUser col-1' onClick={() => window.location.assign(`/profile?userId=${explore.user?.id}`)}>
@@ -81,6 +83,8 @@ function ExplorePage() {
             </div><p>{explore.user?.username}</p> </Row>
         ))}
       </Container>
+        
+      </div>
 
 
         <Row className='Content d-flex row PhotoGrid'>
@@ -95,9 +99,6 @@ function ExplorePage() {
             </Col>   
           ))}
         </Row>
-        <div>
-        <Button variant='primary' onClick={handleViewMore}> View More </Button>
-        </div>
       </div>
     </div>
     

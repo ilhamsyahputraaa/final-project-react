@@ -1,13 +1,11 @@
-import AvatarImage from '../assets/PlaceHolder/100.png';
+
 import NavBar from '../Components/NavBar';
-import SmallImage from '../assets/PlaceHolder/100.png';
 import {Button, Card, Row, Col, Container, Form} from 'react-bootstrap';
-import BigImage from '../assets/PlaceHolder/1000.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSearchParams } from "react-router-dom";
 import {faHeart, faComment, faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { useState, useEffect, useCallback } from 'react';
-import { format } from 'date-fns';
+
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from "yup";
@@ -31,6 +29,8 @@ function DetailPostPage() {
   const [isLikes, setIsLikes] = useState(false);
   const [toggleLike, setToggleLike] = useState(false);
   const [commentCount, setCommentCount] = useState({});
+
+  
 
 
     // Get Post Detail
@@ -229,14 +229,14 @@ function DetailPostPage() {
   return (
     <>
     <NavBar />
-    <div className='body d-flex row gap-5'>
+    <div className='body d-flex row gap-5 BodyDetailPost'>
 
       {/* Content */}
-      <div className='Content d-flex row gap-5 col-5'>
+      <div className='detailPostContent Content d-flex row  col-lg-5 col-md-12 '>
         <Card style={{ width: '100%' }} id='PostCard'>
             <Col id='UserPost' >
-              <Col id='UserName' >
-                    <div id='AvatarImage'><img src={postUser.profilePictureUrl} alt="" className='AvatarPost' onClick={() => window.location.assign(`/profile?userId=${postDetail.userId}`)}/></div>{postUser.username}
+              <Col id='UserName' className='d-flex row gap-4'>
+                    <div id='AvatarImage' ><img src={postUser.profilePictureUrl} alt="" className='AvatarPost' onClick={() => window.location.assign(`/profile?userId=${postDetail.userId}`)} style={{objectFit: "cover", aspectRatio: "1/1" }}/></div>{postUser.username}
             </Col>
             {postUser.id === localStorage.getItem("id") ? 
             (<div className='d-flex gap-4'>
@@ -250,7 +250,7 @@ function DetailPostPage() {
       </div>
 
       {/* Sidebar Kanan */}
-      <div className=' SideBar col-3 d-flex row gap-4'>
+      <div className='detailPostComent SideBar col-lg-3 col-md-12 d-flex row gap-4 '>
         <Card id='PostCard' className='p-4 d-flex gap-4'>
             <Row>
                 <Col id='ActionButtonPost' className='d-flex gap-4 column align-items-center'>
@@ -268,10 +268,10 @@ function DetailPostPage() {
                   
                 </Col>
             </Row>
-            <Card.Text style={{ color: "grey" }}>
-            {format(new Date(postDetail.updatedAt), 'EEEE, dd MMMM yyyy')}
+            <Card.Text style={{ color: "grey" }}> {postDetail.createdAt}
             </Card.Text>
-            <Card.Text>
+            
+            <Card.Text style={{fontSize : 18}}>
             {postDetail.caption}
             </Card.Text>
         </Card>
@@ -297,13 +297,15 @@ function DetailPostPage() {
             {/* Comments */}
             {commentList.map(comment => (
             <div id='CommentItem' className='d-flex gap-3'>
+                <div className='d-flex gap-3'>
                 <span>
-                  <img src={comment.user.profilePictureUrl} alt="" className='AvatarPost' onClick={() => window.location.assign(`/profile?userId=${comment.user.id}`)} />
+                  <img src={comment.user.profilePictureUrl} alt="" className='AvatarPost' onClick={() => window.location.assign(`/profile?userId=${comment.user.id}`)} style={{objectFit: "cover", aspectRatio: "1/1" }}/>
                 </span>
                 <span>
                     <h6>{comment.user.username}</h6>
                     <p> {comment.comment}</p>
-                </span>
+                </span>                  
+                </div>
                 {comment.user.id === localStorage.getItem("id") ? (<FontAwesomeIcon icon={faTrash} onClick={() => handleDeleteComment(comment.id)}/>) : (null)}
             </div>                
             ))}

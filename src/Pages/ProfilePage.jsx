@@ -200,11 +200,11 @@ function ProfilePage() {
     <>
     <NavBar />
     <div className='body d-flex row'>
-      <div className='Content d-flex row gap-5 col-6'>
+      <div className='Content d-flex row gap-5 col-lg-6 col-md-12'>
         <Container id='ProfileBadge' className='d-flex row'>
             <Col id='UserPost'>
               <Col className='d-flex UserName'>
-                <img src={userInfo.profilePictureUrl} alt="" className='AvatarImage'/>  
+                <img src={userInfo.profilePictureUrl} alt="" className='AvatarImage' style={{objectFit: "cover", aspectRatio: "1/1" }}/>  
                 <Row>
                   <h4>{userInfo.username}</h4> 
                   <p>{userInfo.name}</p>
@@ -213,7 +213,7 @@ function ProfilePage() {
               </Col>
               
               {userInfo.id === localStorage.getItem("id") ?
-              (<Button variant="primary" onClick={() => window.location.assign(`/editprofile`)}>Edit Profile</Button>) :
+              (<Button  variant="primary" onClick={() => window.location.assign(`/editprofile`)}>Edit Profile</Button>) :
               (isUserFollowed? 
               (<Button variant="secondary" onClick={handleUnFollow}>Unfollow</Button>) :
               (<Button variant="primary" onClick={handleFollow}>Follow</Button>))}
