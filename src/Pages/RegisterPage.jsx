@@ -31,9 +31,9 @@ const RegisterPage = () => {
     onSubmit: (values) => {
       axios({
         method: "post",
-        url: `${import.meta.env.VITE_REACT_BASE_URL}/api/v1/register`,
+        url: `https://photo-sharing-api-bootcamp.do.dibimbing.id/api/v1/register`,
         headers: {
-          apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
+          apiKey: `c7b411cc-0e7c-4ad1-aa3f-822b00e7734b`,
         },
         data: {
           name: values.name,
