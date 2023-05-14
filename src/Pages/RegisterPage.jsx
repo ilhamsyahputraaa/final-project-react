@@ -59,7 +59,6 @@ const RegisterPage = () => {
 
   return (
     <>
-    <NavBar />
     <div className='body d-flex row gap-5   justify-content-center align-items-center' >
 
         {/* Content */}

@@ -1,4 +1,4 @@
-import NavBar from "../Components/NavBar";
+
 
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useState } from "react";
@@ -56,7 +56,6 @@ const LoginPage = () => {
 
   return (
     <>
-        <NavBar />
         <div className='body d-flex row gap-5   justify-content-center align-items-center' >
           {/* Container */}
           <div className='Content d-flex row gap-5 col-6'>

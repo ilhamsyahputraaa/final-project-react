@@ -213,8 +213,8 @@ function ProfilePage() {
               {userInfo.id === localStorage.getItem("id") ?
               (<Button  variant="primary" onClick={() => window.location.assign(`/editprofile`)} className='MainButton'>Edit Profile</Button>) :
               (isUserFollowed? 
-              (<Button variant="secondary" onClick={handleUnFollow} className='MainButton'>Unfollow</Button>) :
-              (<Button variant="primary" onClick={handleFollow}className='SecondButton'>Follow</Button>))}
+              (<Button variant="secondary" onClick={handleUnFollow} className='SecondButton'>Unfollow</Button>) :
+              (<Button variant="primary" onClick={handleFollow}className='MainButton'>Follow</Button>))}
               
               </Col>
             
