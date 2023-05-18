@@ -14,6 +14,16 @@
     transition-duration: 0.5s;
 }
 
+
+ 
+.nav-link.active {
+    border-radius: 2rem;
+    background: linear-gradient(129.07deg, #633DB1 8.47%, #3D3BBC 46.52%, #3377C8 85.37%);
+    color: white;
+    padding: 0.5rem;
+    stroke: 0;
+}
+
 .cardOverlay:hover{
     background-color: rgba(75, 75, 75, 0.548);
     transition-duration: 0.5s;

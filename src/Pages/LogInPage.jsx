@@ -1,11 +1,9 @@
-
-
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import LoginImage from "../assets/PlaceHolder/Login.png"
+import LoginImage from "../assets/PlaceHolder/Login.png";
 
 const LoginPage = () => {
   const [passwordShown, setPasswordShown] = useState(false);
@@ -53,62 +51,87 @@ const LoginPage = () => {
     },
   });
 
-
   return (
     <>
-        <div className='body d-flex row gap-5   justify-content-center align-items-center' >
-          {/* Container */}
-          <div className='Content d-flex row gap-5 col-6'>
-            <div className="register-section p-5 ">
-              <img src={LoginImage} alt="" style={{objectFit: "cover", width:600}}/>
-            </div>
+      <div className="body d-flex row gap-5   justify-content-center align-items-center">
+        {/* Container */}
+        <div className="Content d-flex row gap-5 col-6">
+          <div className="register-section p-5 ">
+            <img
+              src={LoginImage}
+              alt=""
+              style={{ objectFit: "cover", width: 600 }}
+            />
           </div>
-          {/* Container */}
-          <div className='Content d-flex row gap-5 col-4'>
-            <div id="FollowingList" className="register-section p-5 ">
-              <div className="login-regist-area">
-                <div className="login-bubble mb-2 d-flex row gap-5">
-                  
-                  {/* Content */}
-                  <h1 className="login-title">Sign In</h1>
-                  <Form onSubmit={formik.handleSubmit}>
+        </div>
+        {/* Container */}
+        <div className="Content d-flex row gap-5 col-4">
+          <div id="FollowingList" className="register-section p-5 ">
+            <div className="login-regist-area">
+              <div className="login-bubble mb-2 d-flex row gap-5">
+                {/* Content */}
+                <h1 className="login-title">Sign In</h1>
+                <Form onSubmit={formik.handleSubmit}>
+                  {/* Email */}
+                  <Form.Group className="mb-4 " controlId="email">
+                    <Form.Label className="login-label">Email</Form.Label>
+                    <Form.Control
+                      placeholder="Enter Email"
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      value={formik.values.email}
+                    />
+                    <Form.Text style={formErrorStyle}>
+                      {formik.touched.email && formik.errors.email}
+                    </Form.Text>
+                  </Form.Group>
 
-                    {/* Email */}
-                    <Form.Group className="mb-4 " controlId="email">
-                      <Form.Label className="login-label">Email</Form.Label>
-                      <Form.Control placeholder="Enter Email" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.email} />
-                      <Form.Text style={formErrorStyle}>{formik.touched.email && formik.errors.email}</Form.Text>
-                    </Form.Group>
+                  {/* Password */}
+                  <Form.Group className="mb-4" controlId="password">
+                    <Form.Label className="login-label">Password</Form.Label>
+                    <Form.Control
+                      type={passwordShown ? "text" : "password"}
+                      placeholder="Enter Password"
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      value={formik.values.password}
+                    />
+                    <Form.Text style={formErrorStyle}>
+                      {formik.touched.password && formik.errors.password}
+                    </Form.Text>
+                  </Form.Group>
 
-                    {/* Password */}
-                    <Form.Group className="mb-4" controlId="password">
-                      <Form.Label className="login-label">Password</Form.Label>
-                      <Form.Control type={passwordShown ? "text" : "password"} placeholder="Enter Password" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.password} />
-                      <Form.Text style={formErrorStyle}>{formik.touched.password && formik.errors.password}</Form.Text>
-                    </Form.Group>
+                  {/* Show Password */}
+                  <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                    <Form.Check
+                      className="login-label"
+                      type="checkbox"
+                      label="Show Password"
+                      onClick={handleShowPassword}
+                    />
+                  </Form.Group>
 
-                    {/* Show Password */}
-                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                      <Form.Check className="login-label" type="checkbox" label="Show Password" onClick={handleShowPassword} />
-                    </Form.Group>
-
-                    {/* Log In */}
-                    <Row>
-                      <Button disabled={!formik.isValid} type="submit" variant="primary" className='MainButton'> Log In </Button>
-                      <Col className='RegisterButton'>
-                        <span>Or  </span>
-                        <a href="/register"> Register </a>
-                      </Col>
-                    </Row>
-                    
-                  </Form>
-
-                </div>
+                  {/* Log In */}
+                  <Row>
+                    <Button
+                      disabled={!formik.isValid}
+                      type="submit"
+                      variant="primary"
+                      className="MainButton">
+                      {" "}
+                      Log In{" "}
+                    </Button>
+                    <Col className="RegisterButton">
+                      <span>Or </span>
+                      <a href="/register"> Register </a>
+                    </Col>
+                  </Row>
+                </Form>
               </div>
             </div>
           </div>
-
         </div>
+      </div>
     </>
   );
 };

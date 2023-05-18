@@ -54,9 +54,9 @@ const UploadPost = () => {
   };
 
   useEffect(() => {
-    // if (!isLoading && imageUrl) {
-    //   formik.setFieldValue("imageUrlField", imageUrl);
-    // }
+    if (!isLoading && imageUrl) {
+      formik.setFieldValue("imageUrlField", imageUrl);
+    }
   }, [isLoading, imageUrl]);
 
   // Upload Post Formik
