@@ -116,12 +116,7 @@ function App() {
       });
   }, []);
 
-  // ViewMore
-  const [number, setNumber] = useState(10);
-  const handleViewMore = () => {
-    setNumber((prevNumber) => prevNumber + 10);
-    getFollowingPost();
-  };
+
   
   // Get Following Post
   const getFollowingPost = useCallback(() => {
@@ -129,13 +124,14 @@ function App() {
       method: "get",
       url: `${
         import.meta.env.VITE_REACT_BASE_URL
-      }/api/v1/following-post?size=${number}&page=1`,
+      }/api/v1/following-post?size=100&page=1`,
       headers: {
         apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
         Authorization: `Bearer ${jwtToken}`,
       },
     })
       .then((response) => {
+        console.log(response.data);
         const posts = response.data.data.posts;
         const sortedPosts = posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setIsLoading(false);
@@ -244,7 +240,7 @@ function App() {
     getFollowingList();
     getFollowersList();
     handleIsLogin();
-  }, [isLoading, isLogin, toggleLike, number]);
+  }, [isLoading, isLogin, toggleLike]);
 
   return (
     <>
@@ -434,16 +430,6 @@ function App() {
                   </Card.Body>
                 </Card>
               ))}
-            </div>
-            
-            <div className="d-flex justify-content-center">
-            <Button
-              variant="primary"
-              onClick={() => handleViewMore
-              }
-              className="MainButton">
-              View More Post
-            </Button>
             </div>
           </div>
         </div>        
