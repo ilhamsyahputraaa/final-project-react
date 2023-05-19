@@ -220,6 +220,12 @@ h1, h2, h3, h4, h5, h6, p {
 
 }
 
+.ReccomendationAccountCont {
+    height: 60vh;
+    overflow-y: scroll;
+
+}
+
 .RecAcc{
     display: flex;
     align-items: center;
@@ -289,6 +295,14 @@ Button{
     align-items: start;
     justify-content: space-between;
 
+}
+
+.FollowingListCont{
+    overflow-x: scroll;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 1rem 0;
 }
 
 

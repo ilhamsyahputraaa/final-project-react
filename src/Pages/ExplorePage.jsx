@@ -78,6 +78,7 @@ function ExplorePage() {
           <div className="FollowingListHome">
             <Container fluid id="FollowingList" className="d-flex  row">
               <h6>Sugestion</h6>
+              <div className="FollowingListCont">
               {exploreUser.map((explore) => (
                 <Row
                   className="d-flex FollowingUser col-1"
@@ -102,6 +103,8 @@ function ExplorePage() {
                   <p>{explore.user?.username}</p>{" "}
                 </Row>
               ))}
+              </div>
+
             </Container>
           </div>
 

@@ -116,13 +116,20 @@ function App() {
       });
   }, []);
 
+  // ViewMore
+  const [number, setNumber] = useState(10);
+  const handleViewMore = () => {
+    setNumber((prevNumber) => prevNumber + 10);
+    getFollowingPost();
+  };
+  
   // Get Following Post
   const getFollowingPost = useCallback(() => {
     axios({
       method: "get",
       url: `${
         import.meta.env.VITE_REACT_BASE_URL
-      }/api/v1/following-post?size=10&page=1`,
+      }/api/v1/following-post?size=${number}&page=1`,
       headers: {
         apiKey: `${import.meta.env.VITE_REACT_API_KEY}`,
         Authorization: `Bearer ${jwtToken}`,
@@ -135,6 +142,8 @@ function App() {
         setIsLoading(false);
         setFollowingPost(posts);
 
+        
+        
         // Get comment count for each post
         posts.map((post) => {
           axios({
@@ -236,14 +245,15 @@ function App() {
     getFollowingList();
     getFollowersList();
     handleIsLogin();
-  }, [isLoading, isLogin, toggleLike]);
+  }, [isLoading, isLogin, toggleLike, number]);
 
   return (
     <>
       <NavBar />
-      <div className="body d-flex row gap-5">
+      <div className="body d-flex row gap-5" >
         {/* Sidebar Kiri */}
-        <div className="SidebarHome SideBar col-lg-3 col-md-3 d-flex row gap-4 p-2 ">
+        {myInfo.totalFollowing === 0 ? (null) : (
+        <div className="SidebarHome SideBar col-lg-3 col-md-3 d-flex row gap-4 p-2 " >
           <Row id="ProfileBadge" className="gap-4 SidebarHome">
             <Col className="d-flex col UserName">
               <img
@@ -281,20 +291,43 @@ function App() {
               View Profile
             </Button>
           </Row>
-        </div>
+        </div>          
+        )}
+
 
         {/* Content */}
+        {myInfo.totalFollowing === 0 ? (
+          <div className="Content d-flex row gap-4 col-lg-3 col-md-12 p-2" style={{height:"80vh"}}>
+          <Row id="ProfileBadge" className="gap-4 SidebarHome">
+            <h3>You're Not Following Anyone.</h3>
+            <p> Kunjungi halaman explore untuk mulai mengikuti teman atau orang yang anda kenal!</p>
+            <div>
+            <Button
+              variant="primary"
+              onClick={() =>
+                window.location.assign(`/explore`)
+              }
+              className="MainButton">
+              Visit Explore
+            </Button>              
+            </div>
+
+          </Row>              
+          </div>
+) : 
+        (
         <div className="Content d-flex row gap-4 col-lg-5 col-md-12 p-2">
-          <div className="d-flex row p-0 gap-4 m-0 Content">
-            <div className="FollowingListHome p-0 m-0">
+          <div className="d-flex row p-0 gap-4 m-0 Content ">
+            <div className="FollowingListHome p-0 m-0 ">
               <Container
                 fluid
                 id="FollowingList"
-                className="d-flex  row FollowingListHome">
+                className="d-flex  row FollowingListHome ">
                 <h6>My Following</h6>
-                {followingList.map((following) => (
+                <div className="FollowingListCont">
+                  {followingList.map((following) => (
                   <Row
-                    className="d-flex FollowingUser col-2"
+                    className="d-flex FollowingUser col-2 "
                     onClick={() =>
                       window.location.assign(`/profile?userId=${following.id}`)
                     }>
@@ -314,6 +347,8 @@ function App() {
                     <p>{following.username}</p>{" "}
                   </Row>
                 ))}
+                </div>
+                
               </Container>
             </div>
 
@@ -401,16 +436,27 @@ function App() {
                 </Card>
               ))}
             </div>
+            
+            <div className="d-flex justify-content-center">
+            <Button
+              variant="primary"
+              onClick={() => handleViewMore
+              }
+              className="MainButton">
+              View More Post
+            </Button>
+            </div>
           </div>
-        </div>
+        </div>        
+        )}
 
-        {/* Sidebar Kanan */}
-        <div className="SidebarHome SideBar col-3 d-flex row p-2 ">
-          <Row id="ProfileBadge" className=" SidebarHome">
+        {myInfo.totalFollowing === 0 ? (null) : (
+        <div className="SidebarHome SideBar col-3 d-flex row p-2  ">
+          <Row id="ProfileBadge" className=" SidebarHome ">
             <h6>My Followers</h6>
 
             {/* List Container */}
-            <div className="d-flex row gap-3 ReccomendationAccount">
+            <div className="d-flex row gap-3 ReccomendationAccount ReccomendationAccountCont">
               {/* Items */}
               {followerList.map((follower) => (
                 <div className="d-flex ReccomendationAccount">
@@ -437,7 +483,9 @@ function App() {
               ))}
             </div>
           </Row>
-        </div>
+        </div>          
+        )}
+
       </div>
     </>
   );
