@@ -12,6 +12,7 @@
     background-color: rgba(151, 151, 151, 0);
     overflow: hidden;
     transition-duration: 0.5s;
+    border: 0;
 }
 
 
@@ -119,6 +120,7 @@ h1, h2, h3, h4, h5, h6, p {
     border-radius: 1rem;
     padding: 0rem;
     overflow: hidden;
+    border: 0px;
 }
 
 #UserPost{

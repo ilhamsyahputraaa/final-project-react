@@ -136,11 +136,10 @@ function App() {
       },
     })
       .then((response) => {
-        const posts = response.data.data.posts.sort((a, b) => {
-          return new Date(b.createdAt) - new Date(a.createdAt);
-        });
+        const posts = response.data.data.posts;
+        const sortedPosts = posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setIsLoading(false);
-        setFollowingPost(posts);
+        setFollowingPost(sortedPosts);
 
         
         
